@@ -103,3 +103,12 @@ class SemanticAnalyzer:
                 raise SemanticError("Instruction res requires exactly one operand")
             if not isinstance(instruction.operands[0], str):
                 raise SemanticError(f"Operand {instruction.operands[0]} is not a label or null")
+
+        if instruction.opcode in ['set', 'unset', 'check']:
+            if len(instruction.operands) != 1:
+                raise SemanticError(f"Instruction {instruction.opcode} takes exactly one operand")
+            if not isinstance(instruction.operands[0], str):
+                raise SemanticError(f"Operand {instruction.operands[0]} is not a label")
+            if instruction.operands[0] not in ['dev0', 'dev1', 'dev2', 'dev3', 'dev4', 'dev5', 'dev6', 'dev7', 'dev8',
+                                               'dev9', 'dev10', 'dev11', 'dev12', 'dev13', 'dev14', 'dev15']:
+                raise SemanticError(f"Label should point to device [dev0-dev15], got {instruction.operands[0]}")

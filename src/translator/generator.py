@@ -150,7 +150,7 @@ class MachineCodeGenerator:
         addr_mode = 0b00
         value = 0
 
-        if node.opcode in ['call', 'jmp', 'jz', 'je', 'jnz', 'jg', 'jge', 'jl', 'jle']:
+        if node.opcode in ['call', 'jmp', 'jz', 'je', 'jnz', 'jg', 'jge', 'jl', 'jle', 'set', 'unset', 'check']:
             addr_mode = 0b00
             value = self.label_addresses[node.operands[0]]
 
@@ -277,17 +277,8 @@ class MachineCodeGenerator:
             'jge': 0x94,
             'jl': 0x98,
             'jle': 0x9C,
+            'set': 0xF0,
+            'unset': 0xF4,
+            'check': 0xFC,
         }
         return opcode_map.get(mnemonic, 0x00)
-
-
-#
-#
-#
-#
-#
-#
-#
-#
-# 0xA0
-# 0xA4
