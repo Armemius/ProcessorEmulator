@@ -34,14 +34,20 @@ class InputDevice(IODevice):
         if self.check_status():
             return
 
-        # size, addr = self.get_buffer()
-        # data = self.input_data[self.it][:size] + [0] * (size - len(self.input_data[self.it][:size]))
-        #
-        # bytes_written = 0
-        # while bytes_written < size:
-        #     self.memory.cells[addr + bytes_written // 4] |= data[bytes_written] << (8 * (bytes_written % 4))
-        #     bytes_written += 1
-        # self.set_ready()
+        # If there is no data ro read skip
+        if self.it >= len(self.input_data):
+            return
+
+        size, addr = self.get_buffer()
+        bytes_written = 0
+        while self.it < size and bytes_written < len(self.input_data[self.it]):
+            data = ord(self.input_data[self.it][bytes_written])
+            self.memory.cells[addr + bytes_written // 4] |= data << (8 * (4 - bytes_written % 4 - 1))
+            bytes_written += 1
+
+        self.it += 1
+        print('Read to memory')
+        self.set_ready()
 
 class Printer:
     def convert_data(self, data):
