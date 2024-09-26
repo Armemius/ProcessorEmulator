@@ -30,7 +30,7 @@ asm | stack | neum | hw | instr | struct | trap -> stream | mem | cstr | prob1 |
 
 <immediate> ::= <number> | <char> | <string>
 
-<section> ::= '%section' <section_identifier>
+<section> ::= '.section' <section_identifier>
 
 <section_identifier> ::= 'text' | 'data' | 'devices'
 

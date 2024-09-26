@@ -1,10 +1,28 @@
 from src.translator.syntax_analyzer import SectionNode, LabelNode, InstructionNode
 
 
+
 class MachineCodeGenerator:
     def __init__(self, syntax_tree):
         self.current_address = 0x1F
-        self.label_addresses = {}
+        self.label_addresses = {
+            'dev0': 0x00,
+            'dev1': 0x02,
+            'dev2': 0x04,
+            'dev3': 0x06,
+            'dev4': 0x08,
+            'dev5': 0x0A,
+            'dev6': 0x0C,
+            'dev7': 0x0E,
+            'dev8': 0x10,
+            'dev9': 0x12,
+            'dev10': 0x14,
+            'dev11': 0x16,
+            'dev12': 0x18,
+            'dev13': 0x1A,
+            'dev14': 0x1C,
+            'dev15': 0x1E
+        }
         self.syntax_tree = syntax_tree
         self.machine_code = {}
         self.serialized_code = ""
@@ -22,7 +40,7 @@ class MachineCodeGenerator:
     def generate(self):
         data_section_indices = []
         text_section_indices = []
-        devices_section_index = 0
+        devices_section_index = -1
         for index, statement in enumerate(self.syntax_tree.statements):
             if isinstance(statement, SectionNode) and statement.section_type == 'data':
                 data_section_indices.append(index)
@@ -46,7 +64,8 @@ class MachineCodeGenerator:
         for index in text_section_indices:
             self.generate_text_section(index)
 
-        self.generate_devices_section(devices_section_index)
+        if devices_section_index >= 0:
+            self.generate_devices_section(devices_section_index)
 
         entry_addr = self.label_addresses.get('start')
         self.serialized_code = "".join(
@@ -253,11 +272,11 @@ class MachineCodeGenerator:
             'jmp': 0x80,
             'jz': 0x84,
             'je': 0x88,
-            'jnz': 0x8B,
+            'jnz': 0x8C,
             'jg': 0x90,
             'jge': 0x94,
             'jl': 0x98,
-            'jle': 0x9B,
+            'jle': 0x9C,
         }
         return opcode_map.get(mnemonic, 0x00)
 

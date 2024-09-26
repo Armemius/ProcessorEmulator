@@ -1,5 +1,8 @@
 import argparse
 
+from src.emulator.components.io_device import InputDevice, StringConsoleOutputDevice, IntConsoleOutputDevice, \
+    UIntConsoleOutputDevice, HexConsoleOutputDevice, StringFileOutputDevice, IntFileOutputDevice, UIntFileOutputDevice, \
+    HexFileOutputDevice
 from src.emulator.components.memory import Memory
 from src.emulator.components.registers import Registry
 from src.emulator.control_unit import ControlUnit
@@ -20,7 +23,22 @@ def main():
     memory = Memory(registry)
     memory.load(operation_codes)
     data_path = DataPath(memory, registry, None)
-    control_unit = ControlUnit(registry, memory, data_path)
+
+    input_data = ['Hello, World!']
+
+    io_devices = [
+        InputDevice(0, registry, memory, input_data),
+        StringConsoleOutputDevice(1, registry, memory),
+        IntConsoleOutputDevice(2, registry, memory),
+        UIntConsoleOutputDevice(3, registry, memory),
+        HexConsoleOutputDevice(4, registry, memory),
+        StringFileOutputDevice(5, registry, memory),
+        IntFileOutputDevice(6, registry, memory),
+        UIntFileOutputDevice(7, registry, memory),
+        HexFileOutputDevice(8, registry, memory)
+    ]
+
+    control_unit = ControlUnit(registry, memory, data_path, io_devices)
 
     control_unit.run(50)
 
