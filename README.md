@@ -21,7 +21,7 @@ asm | stack | neum | hw | instr | struct | trap | mem | cstr | prob1
 
 ### Описание синтаксиса в форме Бэкуса-Наура
 
-```
+```text
 <program> ::= <statement> | <statement> <endl> <program>
 
 <statement> ::= <declaration> | <comment> | <declaration> <comment>
