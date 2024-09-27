@@ -130,7 +130,6 @@ class ControlUnit:
 
     def execute_addr_instruction(self, opcode):
         instruction = address_commands[opcode]
-        print('Executing instruction:', instruction, hex(opcode))
         if instruction == AddrCommands.PUSH:
             self.execute_push()
         elif instruction == AddrCommands.JMP:
@@ -160,7 +159,6 @@ class ControlUnit:
 
     def execute_non_addr_instruction(self, opcode):
         instruction = non_address_commands[opcode]
-        print('Executing instruction:', instruction)
         if instruction == NonAddrCommands.HALT:
             self.execute_halt()
         elif instruction == NonAddrCommands.NOP:
@@ -1457,7 +1455,7 @@ class ControlUnit:
         self.inc_instruction()
 
     def print_state(self):
-        print(
+        return (
             f'Tick: {self.tick} \t'
             f'| Instruction: {self.instruction}   '
             f'| {self.registers} '
@@ -1466,9 +1464,10 @@ class ControlUnit:
         )
 
     def run(self, instruction_delay):
-        self.registers.SR |= 0x8000
-        while self.check_stop_flag():
-            self.process()
-            self.print_state()
-            time.sleep(instruction_delay / 1000)
-        print(f'Emulation finished in {self.tick} ticks / {self.instruction} instruction executions')
+        with open('states.txt', 'w') as golden_file:
+            self.registers.SR |= 0x8000
+            while self.check_stop_flag():
+                self.process()
+                golden_file.write(self.print_state() + '\n')
+                time.sleep(instruction_delay / 1000)
+            print(f'Emulation finished in {self.tick} ticks / {self.instruction} instruction executions')
