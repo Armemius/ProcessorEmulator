@@ -10,8 +10,9 @@ token_specification = [
     ('SECTION', r'.section\s+(text|data|devices)'),  # Section
     ('COMMENT', r';[^\n]*'),  # Comment
     ('OPCODE',
-     r'(?i)(pushf|popf|push|str|pop|inc|dec|swap|dup|nop|jmp|call|ret|halt|int|iret|ei|di|in|out|add|sub|mul|div|and|or|xor|not|neg|ld|st|cmp|jz|je|jnz|jg|jge|jl|jle|res|byte|char|shl|shr|rol|ror|addr|set|unset|check)[^a-zA-Z0-9_]'),
-    # Opcode
+     r'(?i)(pushf|popf|push|str|pop|inc|dec|swap|dup|nop|jmp|call|ret|halt|int|iret|ei|di|in|out'
+     r'|add|sub|mul|div|and|or|xor|not|neg|ld|st|cmp|jz|je|jnz|jg|jge|jl|jle|res|byte|char|shl|shr'
+     r'|rol|ror|addr|set|unset|check)[^a-zA-Z0-9_]'), # Opcode
     ('IDENTIFIER', r'[a-zA-Z_][a-zA-Z0-9_]*'),  # Identifier
     ('COMMA', r','),  # Comma
     ('NEWLINE', r'\n'),  # Line endings

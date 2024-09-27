@@ -1,18 +1,22 @@
 from enum import Enum
 
+
 class AluOperations(Enum):
     ADD = 0b00
     AND = 0b01
     MUL = 0b10
     DIV = 0b11
 
+
 class OperandOperation(Enum):
     NONE = 0b00
     NOT = 0b01
     INC = 0b10
 
-def alu_code (operation, op1, op2):
+
+def alu_code(operation, op1, op2):
     return operation.value << 4 | op1 << 2 | op2
+
 
 def process_alu_code(lhs, rhs, code):
     res = 0

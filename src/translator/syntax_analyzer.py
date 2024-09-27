@@ -2,6 +2,7 @@ class ASTNode:
     def __str__(self):
         return self.__class__.__name__
 
+
 class ProgramNode(ASTNode):
     def __init__(self, statements):
         self.statements = statements
@@ -9,8 +10,10 @@ class ProgramNode(ASTNode):
     def __str__(self):
         return f"ProgramNode(statements=[{', '.join(str(stmt) for stmt in self.statements)}])"
 
+
 class StatementNode(ASTNode):
     pass
+
 
 class InstructionNode(StatementNode):
     def __init__(self, opcode, operands):
@@ -20,12 +23,14 @@ class InstructionNode(StatementNode):
     def __str__(self):
         return f"InstructionNode(opcode={self.opcode}, operands={self.operands})"
 
+
 class LabelNode(StatementNode):
     def __init__(self, identifier):
         self.identifier = identifier
 
     def __str__(self):
         return f"LabelNode(identifier={self.identifier})"
+
 
 class SectionNode(StatementNode):
     def __init__(self, section_type):
@@ -34,6 +39,7 @@ class SectionNode(StatementNode):
     def __str__(self):
         return f"SectionNode(section_type={self.section_type})"
 
+
 class CommentNode(StatementNode):
     def __init__(self, comment):
         self.comment = comment
@@ -41,11 +47,13 @@ class CommentNode(StatementNode):
     def __str__(self):
         return f"CommentNode(comment={self.comment})"
 
+
 class ParserToken:
     def __init__(self, token_type, value, line):
         self.type = token_type
         self.value = value
         self.line = line
+
 
 class SyntaxAnalyzer:
     def __init__(self, tokens):

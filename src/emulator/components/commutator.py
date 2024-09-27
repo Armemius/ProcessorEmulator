@@ -1,33 +1,36 @@
 from enum import Enum
 
-class CommutatorFlags(Enum):
-    NONE   = 0b0000000000
-    LTOH   = 0b0000000001
-    LTOL   = 0b0000000010
-    HTOL   = 0b0000000100
-    HTOH   = 0b0000001000
-    CUTB   = 0b0000001111
-    SHL    = 0b0000010000
-    SHR    = 0b0000100000
-    ROL    = 0b0000110000
-    ROR    = 0b0001000000
-    SET_NZ = 0b0010000000
-    SET_V  = 0b0100000000
-    SET_C  = 0b1000000000
 
-def commutator_code (flags):
+class CommutatorFlags(Enum):
+    NONE = 0b0000000000
+    LTOH = 0b0000000001
+    LTOL = 0b0000000010
+    HTOL = 0b0000000100
+    HTOH = 0b0000001000
+    CUTB = 0b0000001111
+    SHL = 0b0000010000
+    SHR = 0b0000100000
+    ROL = 0b0000110000
+    ROR = 0b0001000000
+    SET_NZ = 0b0010000000
+    SET_V = 0b0100000000
+    SET_C = 0b1000000000
+
+
+def commutator_code(flags):
     res = 0
     for it in flags:
         res |= it.value
     return res
 
+
 def process_commutator_code(data, opcode, flags, registers) -> int:
     res = 0
 
     if opcode & opcode & CommutatorFlags.LTOH.value != 0 \
-        and opcode & opcode & CommutatorFlags.LTOL.value != 0 \
-        and opcode & opcode & CommutatorFlags.HTOH.value != 0 \
-        and opcode & opcode & CommutatorFlags.HTOL.value:
+            and opcode & opcode & CommutatorFlags.LTOL.value != 0 \
+            and opcode & opcode & CommutatorFlags.HTOH.value != 0 \
+            and opcode & opcode & CommutatorFlags.HTOL.value:
         res = data & 0x00FFFFFF
     else:
         # Bit mutations

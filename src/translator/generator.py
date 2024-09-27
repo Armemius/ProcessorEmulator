@@ -1,7 +1,6 @@
 from src.translator.syntax_analyzer import SectionNode, LabelNode, InstructionNode
 
 
-
 class MachineCodeGenerator:
     def __init__(self, syntax_tree):
         self.current_address = 0x1F
@@ -69,7 +68,8 @@ class MachineCodeGenerator:
 
         entry_addr = self.label_addresses.get('start')
         self.serialized_code = "".join(
-            f"{k:06x} {'>' if k == entry_addr else ':'} {v:08x} {self.check_address_for_label(k)} \n" for k, v in sorted(self.machine_code.items()))
+            f"{k:06x} {'>' if k == entry_addr else ':'} {v:08x} {self.check_address_for_label(k)} \n" for k, v in
+            sorted(self.machine_code.items()))
 
         return self.serialized_code
 
@@ -201,7 +201,8 @@ class MachineCodeGenerator:
 
                     if statement.opcode == 'addr':
                         if len(statement.operands) != 1:
-                            raise Exception("Error: invalid device initialization, handler address should be stored in 4 bytes")
+                            raise Exception(
+                                "Error: invalid device initialization, handler address should be stored in 4 bytes")
                         handler = 0 if statement.operands[0] == 'null' else self.label_addresses[statement.operands[0]]
                         it += 1
                         statement = self.syntax_tree.statements[it]
@@ -210,7 +211,8 @@ class MachineCodeGenerator:
 
                     if statement.opcode == 'byte':
                         if len(statement.operands) != 1:
-                            raise Exception("Error: invalid device initialization, buffer size should be stored in 1 byte")
+                            raise Exception(
+                                "Error: invalid device initialization, buffer size should be stored in 1 byte")
                         buffer_size = statement.operands[0]
                         it += 1
                         statement = self.syntax_tree.statements[it]
@@ -219,12 +221,14 @@ class MachineCodeGenerator:
 
                     if statement.opcode == 'addr':
                         if len(statement.operands) != 1:
-                            raise Exception("Error: invalid device initialization, buffer address should be stored in 4 bytes")
+                            raise Exception(
+                                "Error: invalid device initialization, buffer address should be stored in 4 bytes")
                         buffer = 0 if statement.operands[0] == 'null' else self.label_addresses[statement.operands[0]]
                         if buffer == 0:
                             raise Exception("Error: invalid device initialization, buffer address should not be null")
 
-                    print(f"Device {dev_id} initialized with flags {flags}, handler {handler}, buffer size {buffer_size}, buffer {buffer}")
+                    print(
+                        f"Device {dev_id} initialized with flags {flags}, handler {handler}, buffer size {buffer_size}, buffer {buffer}")
 
                     self.machine_code[dev_id * 2] = (flags << 24) | handler
                     self.machine_code[dev_id * 2 + 1] = (buffer_size << 24) | buffer
@@ -234,7 +238,6 @@ class MachineCodeGenerator:
                 else:
                     raise Exception(f"Error: invalid device name '{statement.identifier}'")
             it += 1
-
 
     @staticmethod
     def get_opcode(mnemonic):

@@ -27,11 +27,13 @@ def gen_mc(op, target, lhs, rhs, alu_code, commutator_code):
 
 
 def gen_mc_read():
-    return gen_mc(DataPathOperations.READ.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value, 0, 0)
+    return gen_mc(DataPathOperations.READ.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value,
+                  RegisterCodes.NONE.value, 0, 0)
 
 
 def gen_mc_write():
-    return gen_mc(DataPathOperations.WRITE.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value, 0, 0)
+    return gen_mc(DataPathOperations.WRITE.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value,
+                  RegisterCodes.NONE.value, 0, 0)
 
 
 def gen_io_read(device):

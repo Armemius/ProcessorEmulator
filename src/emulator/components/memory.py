@@ -12,6 +12,7 @@ def parse_line(line):
     else:
         raise ValueError(f'Invalid line in operation codes: {line}')
 
+
 class Memory:
     def __init__(self, registry):
         self.size = 0x1000000
@@ -19,7 +20,7 @@ class Memory:
         self.registry = registry
 
     def read(self):
-        self.registry.DR =  self.cells[self.registry.AR & 0xFFFFFF]
+        self.registry.DR = self.cells[self.registry.AR & 0xFFFFFF]
 
     def write(self):
         self.cells[self.registry.AR & 0xFFFFFF] = self.registry.DR

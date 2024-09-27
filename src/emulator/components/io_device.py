@@ -22,6 +22,7 @@ class IODevice:
     def process(self):
         pass
 
+
 # Writes data into a memory buffer
 class InputDevice(IODevice):
     def __init__(self, dev_id, registers, memory, input_data):
@@ -49,13 +50,16 @@ class InputDevice(IODevice):
         print('Read to memory')
         self.set_ready()
 
+
 class Printer:
     def convert_data(self, data):
         pass
 
+
 class OutputHandler:
     def output(self, data):
         pass
+
 
 class OutputDevice(IODevice, OutputHandler, Printer):
     def __init__(self, dev_id, registers, memory):
@@ -76,6 +80,7 @@ class OutputDevice(IODevice, OutputHandler, Printer):
         self.output(self.convert_data(data))
         self.unset_ready()
 
+
 # Converts data from memory buffer to a string
 
 class StringPrinter(Printer):
@@ -85,17 +90,21 @@ class StringPrinter(Printer):
             return res[:res.find('\0')]
         return res
 
+
 class IntPrinter(Printer):
     def convert_data(self, data):
         return int.from_bytes(data, 'big', signed=True)
+
 
 class UIntPrinter(Printer):
     def convert_data(self, data):
         return int.from_bytes(data, 'big', signed=False)
 
+
 class HexPrinter(Printer):
     def convert_data(self, data):
         return ''.join(map(lambda x: f'{x:02X}', data))
+
 
 # Method to output data
 
@@ -103,10 +112,12 @@ class ConsolePrinter(OutputHandler):
     def output(self, data):
         print("Output:", data)
 
+
 class FilePrinter(OutputHandler):
     def output(self, data):
         with open('out.txt', 'a') as file:
             file.write(data)
+
 
 # Output devices
 
@@ -114,29 +125,36 @@ class StringConsoleOutputDevice(OutputDevice, StringPrinter, ConsolePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
 
+
 class IntConsoleOutputDevice(OutputDevice, IntPrinter, ConsolePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
+
 
 class UIntConsoleOutputDevice(OutputDevice, UIntPrinter, ConsolePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
 
+
 class HexConsoleOutputDevice(OutputDevice, HexPrinter, ConsolePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
+
 
 class StringFileOutputDevice(OutputDevice, StringPrinter, FilePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
 
+
 class IntFileOutputDevice(OutputDevice, IntPrinter, FilePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
 
+
 class UIntFileOutputDevice(OutputDevice, UIntPrinter, FilePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
+
 
 class HexFileOutputDevice(OutputDevice, HexPrinter, FilePrinter):
     def __init__(self, dev_id, registers, memory):

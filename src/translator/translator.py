@@ -4,6 +4,7 @@ import src.translator.syntax_analyzer as astparser
 import src.translator.semantic_analyzer as semparser
 import src.translator.generator as generator
 
+
 def main(source, output):
     with open(source, 'r', encoding='utf-8') as file:
         assembly_file = file.read()
@@ -21,6 +22,7 @@ def main(source, output):
         output_file.write(machine_code)
 
     print(f'File successfully saved to {output}')
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CSA Lab 3 assembly translator")
