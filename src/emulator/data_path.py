@@ -23,7 +23,8 @@ class RegisterCodes(Enum):
 
 
 def gen_mc(op, target, lhs, rhs, alu_code, commutator_code):
-    return op << 37 | target << 30 | lhs << 23 | rhs << 16 | alu_code << 10 | commutator_code
+    return (op << 37 | target << 30 | lhs << 23
+            | rhs << 16 | alu_code << 10 | commutator_code)
 
 
 def gen_mc_read():
@@ -40,12 +41,14 @@ def gen_mc_write():
 
 def gen_io_read(device):
     return ((
-                        DataPathOperations.READ | DataPathOperations.DEV_FLAGS) << 30) | device
+                    DataPathOperations.READ
+                    | DataPathOperations.DEV_FLAGS) << 30) | device
 
 
 def gen_io_write(device):
     return ((
-                        DataPathOperations.READ | DataPathOperations.DEV_FLAGS) << 30) | device
+                        DataPathOperations.READ
+                        | DataPathOperations.DEV_FLAGS) << 30) | device
 
 
 class DataPath:
@@ -61,10 +64,12 @@ class DataPath:
 
     def execute(self, code):
         op = (code >> 37) & 0b111
-        if op & DataPathOperations.READ.value != 0 and op & DataPathOperations.DEV_FLAGS.value != 0:
+        if (op & DataPathOperations.READ.value != 0
+                and op & DataPathOperations.DEV_FLAGS.value != 0):
             self.memory.io_read(op & 0xFF)
             return
-        if op & DataPathOperations.WRITE.value != 0 and op & DataPathOperations.DEV_FLAGS.value != 0:
+        if (op & DataPathOperations.WRITE.value != 0
+                and op & DataPathOperations.DEV_FLAGS.value != 0):
             self.memory.io_write(op & 0xFF)
             return
         if op & DataPathOperations.READ.value != 0:

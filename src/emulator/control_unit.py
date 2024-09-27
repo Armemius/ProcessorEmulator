@@ -1,12 +1,10 @@
 import time
-from distutils.util import execute
 from enum import Enum
-from turtledemo.sorting_animate import instructions1
 
 from src.emulator.components.alu import alu_code, AluOperations, \
     OperandOperation
 from src.emulator.components.commutator import commutator_code, CommutatorFlags
-from src.emulator.data_path import DataPath, DataPathOperations, RegisterCodes, \
+from src.emulator.data_path import DataPathOperations, RegisterCodes, \
     gen_mc, gen_mc_read, gen_mc_write
 
 

@@ -1,4 +1,3 @@
-import pytest
 from src.emulator.emulator import main as emulator_main
 
 

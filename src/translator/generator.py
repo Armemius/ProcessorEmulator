@@ -273,8 +273,8 @@ class MachineCodeGenerator:
                         f"buffer {buffer}")
 
                     self.machine_code[dev_id * 2] = (flags << 24) | handler
-                    self.machine_code[dev_id * 2 + 1] = (
-                                                                buffer_size << 24) | buffer
+                    self.machine_code[dev_id * 2 + 1] = ((buffer_size << 24)
+                                                         | buffer)
 
                     self.label_addresses[
                         f'device #{dev_id} initialization'] = dev_id * 2

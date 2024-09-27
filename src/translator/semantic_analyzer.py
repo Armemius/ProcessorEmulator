@@ -46,15 +46,13 @@ class SemanticAnalyzer:
     def check_instruction(self, instruction):
         if self.current_section is None:
             raise SemanticError("Instruction outside of any section")
-        if (instruction.opcode not in ['byte', 'char', 'res',
-                                      'str']
+        if (instruction.opcode not in ['byte', 'char', 'res', 'str']
                 and self.current_section == 'data'):
             raise SemanticError(
                 f"Instruction {instruction.opcode} "
                 f"is not allowed in data section")
 
-        if (instruction.opcode not in ['byte',
-                                      'addr']
+        if (instruction.opcode not in ['byte', 'addr']
                 and self.current_section == 'devices'):
             raise SemanticError(
                 f"Instruction {instruction.opcode} "

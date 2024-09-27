@@ -44,7 +44,6 @@ def process_commutator_code(data, opcode, flags, registers) -> int:
             res |= (data & 0xFFFF0000)
 
     # Bit shifts
-    shift = (opcode >> 4) & 0b111
     if opcode & CommutatorFlags.SHL.value != 0:
         res = data << 1
     elif opcode & CommutatorFlags.SHR.value != 0:
