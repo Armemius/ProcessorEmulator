@@ -11,10 +11,11 @@ from src.emulator.data_path import DataPath
 
 def main():
     parser = argparse.ArgumentParser(description="CSA Lab 3 emulator")
-    parser.add_argument("-s", "--source", required=True, type=str, help="File with operation codes")
+    parser.add_argument("-o", "--opcodes", required=True, type=str, help="File with operation codes")
+    parser.add_argument("-s", "--source", required=True, type=str, help="File with source codes")
     args = parser.parse_args()
 
-    with open(args.source, 'r', encoding='utf-8') as file:
+    with open(args.opcodes, 'r', encoding='utf-8') as file:
         operation_codes = file.read()
 
     print('Emulator started...')
@@ -40,7 +41,7 @@ def main():
 
     control_unit = ControlUnit(registry, memory, data_path, io_devices)
 
-    control_unit.run(50)
+    control_unit.run(0)
 
 if __name__ == "__main__":
     main()

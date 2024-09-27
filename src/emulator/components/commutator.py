@@ -53,10 +53,10 @@ def process_commutator_code(data, opcode, flags, registers) -> int:
 
     # Flags
     if opcode & CommutatorFlags.SET_NZ.value != 0:
-        registers.SR = registers.SR | (flags & 0b1100)
+        registers.SR = (registers.SR & ~0b1100) | (flags & 0b1100)
     if opcode & CommutatorFlags.SET_V.value != 0:
-        registers.SR = registers.SR | (flags & 0b0010)
+        registers.SR = (registers.SR & ~0b0010) | (flags & 0b0010)
     if opcode & CommutatorFlags.SET_C.value != 0:
-        registers.SR = registers.SR | (flags & 0b0001)
+        registers.SR = (registers.SR & ~0b0001) | (flags & 0b0001)
 
     return res & 0xFFFFFFFF
