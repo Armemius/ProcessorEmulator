@@ -32,6 +32,9 @@ class AddrCommands(Enum):
     JLE = 0x9C
     CALL = 0xA0
     PUSH = 0xA4
+    SET = 0xF0,
+    UNSET = 0xF4,
+    CHECK = 0xFC
 
 
 address_commands = {
@@ -45,6 +48,9 @@ address_commands = {
     0x9C: AddrCommands.JLE,
     0xA0: AddrCommands.CALL,
     0xA4: AddrCommands.PUSH,
+    0xF0: AddrCommands.SET,
+    0xF4: AddrCommands.UNSET,
+    0xFC: AddrCommands.CHECK,
 }
 
 
@@ -145,6 +151,12 @@ class ControlUnit:
             self.execute_jle()
         elif instruction == AddrCommands.CALL:
             self.execute_call()
+        elif instruction == AddrCommands.SET:
+            self.execute_set()
+        elif instruction == AddrCommands.UNSET:
+            self.execute_unset()
+        elif instruction == AddrCommands.CHECK:
+            self.execute_check()
 
     def execute_non_addr_instruction(self, opcode):
         instruction = non_address_commands[opcode]
@@ -1259,6 +1271,15 @@ class ControlUnit:
                    commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
         )
         self.inc_tick()
+
+    def execute_set(self):
+        self.execute_ld()
+
+    def execute_unset(self):
+        pass
+
+    def execute_check(self):
+        pass
 
     def inc_tick(self):
         self.tick += 1

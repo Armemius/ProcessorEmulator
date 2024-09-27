@@ -157,6 +157,8 @@ class MachineCodeGenerator:
         if node.opcode == 'push':
             if isinstance(node.operands[0], str):
                 addr_mode = 0b00
+                if node.operands[0] not in self.label_addresses:
+                    raise Exception(f"Error: label '{node.operands[0]}' not found")
                 value = self.label_addresses[node.operands[0]]
             elif isinstance(node.operands[0], int):
                 addr_mode = 0b10

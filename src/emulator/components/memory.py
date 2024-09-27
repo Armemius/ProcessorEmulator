@@ -35,6 +35,6 @@ class Memory:
 
                 if separator == '>' or separator == '+':
                     self.registry.PC = int(address, 16)
-                    print('Entry point set to', self.registry.PC)
+                    print('Entry point set to', hex(self.registry.PC))
 
                 self.cells[int(address, 16)] = int(value, 16)
