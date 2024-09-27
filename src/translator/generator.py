@@ -1,4 +1,5 @@
-from src.translator.syntax_analyzer import SectionNode, LabelNode, InstructionNode
+from src.translator.syntax_analyzer import SectionNode, LabelNode, \
+    InstructionNode
 
 
 class MachineCodeGenerator:
@@ -41,11 +42,15 @@ class MachineCodeGenerator:
         text_section_indices = []
         devices_section_index = -1
         for index, statement in enumerate(self.syntax_tree.statements):
-            if isinstance(statement, SectionNode) and statement.section_type == 'data':
+            if isinstance(statement,
+                          SectionNode) and statement.section_type == 'data':
                 data_section_indices.append(index)
-            elif isinstance(statement, SectionNode) and statement.section_type == 'text':
+            elif isinstance(statement,
+                            SectionNode) and statement.section_type == 'text':
                 text_section_indices.append(index)
-            elif isinstance(statement, SectionNode) and statement.section_type == 'devices':
+            elif (isinstance(statement,
+                             SectionNode)
+                  and statement.section_type == 'devices'):
                 if self.devices_section_present:
                     raise Exception("Error: multiple devices sections")
                 self.devices_section_present = True
@@ -68,7 +73,9 @@ class MachineCodeGenerator:
 
         entry_addr = self.label_addresses.get('start')
         self.serialized_code = "".join(
-            f"{k:06x} {'>' if k == entry_addr else ':'} {v:08x} {self.check_address_for_label(k)} \n" for k, v in
+            f"{k:06x} {'>' if k == entry_addr else ':'} {v:08x} "
+            f"{self.check_address_for_label(k)} \n"
+            for k, v in
             sorted(self.machine_code.items()))
 
         return self.serialized_code
@@ -76,21 +83,27 @@ class MachineCodeGenerator:
     def generate_data_section(self, start_index):
         it = start_index + 1
         cell_pos = 0
-        while it < len(self.syntax_tree.statements) and not isinstance(self.syntax_tree.statements[it], SectionNode):
+        while it < len(self.syntax_tree.statements) and not isinstance(
+                self.syntax_tree.statements[it], SectionNode):
             statement = self.syntax_tree.statements[it]
             if isinstance(statement, LabelNode):
-                if it > 0 and not isinstance(self.syntax_tree.statements[it - 1], LabelNode):
+                if it > 0 and not isinstance(
+                        self.syntax_tree.statements[it - 1], LabelNode):
                     self.current_address += 1
                 cell_pos = 0
                 if statement.identifier == "start":
-                    raise Exception("Error: 'start' label should be located in text section")
-                self.label_addresses[statement.identifier] = self.current_address
+                    raise Exception(
+                        "Error: 'start' label should be "
+                        "located in text section")
+                self.label_addresses[
+                    statement.identifier] = self.current_address
             elif isinstance(statement, InstructionNode):
                 if statement.opcode == 'byte':
                     for operand in statement.operands:
                         if self.current_address not in self.machine_code:
                             self.machine_code[self.current_address] = 0
-                        self.machine_code[self.current_address] |= operand << (32 - (cell_pos + 1) * 8)
+                        self.machine_code[self.current_address] |= operand << (
+                                32 - (cell_pos + 1) * 8)
                         cell_pos += 1
                         if cell_pos >= 4:
                             self.current_address += 1
@@ -99,7 +112,8 @@ class MachineCodeGenerator:
                     for operand in statement.operands:
                         if self.current_address not in self.machine_code:
                             self.machine_code[self.current_address] = 0
-                        self.machine_code[self.current_address] |= ord(operand) << (32 - (cell_pos + 1) * 8)
+                        self.machine_code[self.current_address] |= ord(
+                            operand) << (32 - (cell_pos + 1) * 8)
                         cell_pos += 1
                         if cell_pos >= 4:
                             self.current_address += 1
@@ -116,7 +130,8 @@ class MachineCodeGenerator:
                         for char in operand:
                             if self.current_address not in self.machine_code:
                                 self.machine_code[self.current_address] = 0
-                            self.machine_code[self.current_address] |= ord(char) << (32 - (cell_pos + 1) * 8)
+                            self.machine_code[self.current_address] |= ord(
+                                char) << (32 - (cell_pos + 1) * 8)
                             cell_pos += 1
                             if cell_pos >= 4:
                                 self.current_address += 1
@@ -125,11 +140,14 @@ class MachineCodeGenerator:
 
     def calc_text_label_addresses(self, index):
         it = index + 1
-        while it < len(self.syntax_tree.statements) and not isinstance(self.syntax_tree.statements[it], SectionNode):
-            if it > 0 and not isinstance(self.syntax_tree.statements[it - 1], LabelNode):
+        while it < len(self.syntax_tree.statements) and not isinstance(
+                self.syntax_tree.statements[it], SectionNode):
+            if it > 0 and not isinstance(self.syntax_tree.statements[it - 1],
+                                         LabelNode):
                 self.current_address += 1
             if isinstance(self.syntax_tree.statements[it], LabelNode):
-                self.label_addresses[self.syntax_tree.statements[it].identifier] = self.current_address
+                self.label_addresses[self.syntax_tree.statements[
+                    it].identifier] = self.current_address
                 self.machine_code[self.current_address] = 0
             it += 1
 
@@ -137,10 +155,13 @@ class MachineCodeGenerator:
 
     def generate_text_section(self, index):
         it = index + 1
-        while it < len(self.syntax_tree.statements) and not isinstance(self.syntax_tree.statements[it], SectionNode):
+        while it < len(self.syntax_tree.statements) and not isinstance(
+                self.syntax_tree.statements[it], SectionNode):
             statement = self.syntax_tree.statements[it]
             if isinstance(statement, InstructionNode):
-                self.machine_code[self.current_address] = self.generate_instruction(statement)
+                self.machine_code[
+                    self.current_address] = self.generate_instruction(
+                    statement)
                 self.current_address += 1
             it += 1
 
@@ -150,7 +171,8 @@ class MachineCodeGenerator:
         addr_mode = 0b00
         value = 0
 
-        if node.opcode in ['call', 'jmp', 'jz', 'je', 'jnz', 'jg', 'jge', 'jl', 'jle', 'set', 'unset', 'check']:
+        if node.opcode in ['call', 'jmp', 'jz', 'je', 'jnz', 'jg', 'jge', 'jl',
+                           'jle', 'set', 'unset', 'check']:
             addr_mode = 0b00
             value = self.label_addresses[node.operands[0]]
 
@@ -158,7 +180,8 @@ class MachineCodeGenerator:
             if isinstance(node.operands[0], str):
                 addr_mode = 0b00
                 if node.operands[0] not in self.label_addresses:
-                    raise Exception(f"Error: label '{node.operands[0]}' not found")
+                    raise Exception(
+                        f"Error: label '{node.operands[0]}' not found")
                 value = self.label_addresses[node.operands[0]]
             elif isinstance(node.operands[0], int):
                 addr_mode = 0b10
@@ -172,11 +195,13 @@ class MachineCodeGenerator:
         return ((opcode | addr_mode) << 24) | value
 
     def generate_devices_section(self, start_index):
-        devices = ['dev0', 'dev1', 'dev2', 'dev3', 'dev4', 'dev5', 'dev6', 'dev7', 'dev8', 'dev9', 'dev10', 'dev11',
+        devices = ['dev0', 'dev1', 'dev2', 'dev3', 'dev4', 'dev5', 'dev6',
+                   'dev7', 'dev8', 'dev9', 'dev10', 'dev11',
                    'dev12', 'dev13', 'dev14', 'dev15']
         initialized_devices = []
         it = start_index + 1
-        while it < len(self.syntax_tree.statements) and not isinstance(self.syntax_tree.statements[it], SectionNode):
+        while it < len(self.syntax_tree.statements) and not isinstance(
+                self.syntax_tree.statements[it], SectionNode):
             statement = self.syntax_tree.statements[it]
             if isinstance(statement, LabelNode):
                 if statement.identifier in initialized_devices:
@@ -192,51 +217,71 @@ class MachineCodeGenerator:
 
                     if statement.opcode == 'byte':
                         if len(statement.operands) != 1:
-                            raise Exception("Error: invalid device initialization, flags should be stored in 1 byte")
+                            raise Exception(
+                                "Error: invalid device initialization, "
+                                "flags should be stored in 1 byte")
                         flags = statement.operands[0]
                         it += 1
                         statement = self.syntax_tree.statements[it]
                     else:
-                        raise Exception("Error: invalid device initialization, no device flags found")
+                        raise Exception(
+                            "Error: invalid device initialization, "
+                            "no device flags found")
 
                     if statement.opcode == 'addr':
                         if len(statement.operands) != 1:
                             raise Exception(
-                                "Error: invalid device initialization, handler address should be stored in 4 bytes")
-                        handler = 0 if statement.operands[0] == 'null' else self.label_addresses[statement.operands[0]]
+                                "Error: invalid device initialization, "
+                                "handler address should be stored in 4 bytes")
+                        handler = 0 if statement.operands[0] == 'null' else \
+                            self.label_addresses[statement.operands[0]]
                         it += 1
                         statement = self.syntax_tree.statements[it]
                     else:
-                        raise Exception("Error: invalid device initialization, no device handler found")
+                        raise Exception(
+                            "Error: invalid device initialization, "
+                            "no device handler found")
 
                     if statement.opcode == 'byte':
                         if len(statement.operands) != 1:
                             raise Exception(
-                                "Error: invalid device initialization, buffer size should be stored in 1 byte")
+                                "Error: invalid device initialization, "
+                                "buffer size should be stored in 1 byte")
                         buffer_size = statement.operands[0]
                         it += 1
                         statement = self.syntax_tree.statements[it]
                     else:
-                        raise Exception("Error: invalid device initialization, no buffer size found")
+                        raise Exception(
+                            "Error: invalid device initialization, "
+                            "no buffer size found")
 
                     if statement.opcode == 'addr':
                         if len(statement.operands) != 1:
                             raise Exception(
-                                "Error: invalid device initialization, buffer address should be stored in 4 bytes")
-                        buffer = 0 if statement.operands[0] == 'null' else self.label_addresses[statement.operands[0]]
+                                "Error: invalid device initialization, "
+                                "buffer address should be stored in 4 bytes")
+                        buffer = 0 if statement.operands[0] == 'null' else \
+                            self.label_addresses[statement.operands[0]]
                         if buffer == 0:
-                            raise Exception("Error: invalid device initialization, buffer address should not be null")
+                            raise Exception(
+                                "Error: invalid device initialization, "
+                                "buffer address should not be null")
 
                     print(
-                        f"Device {dev_id} initialized with flags {flags}, handler {handler}, buffer size {buffer_size}, buffer {buffer}")
+                        f"Device {dev_id} initialized with flags {flags}, "
+                        f"handler {handler}, buffer size {buffer_size}, "
+                        f"buffer {buffer}")
 
                     self.machine_code[dev_id * 2] = (flags << 24) | handler
-                    self.machine_code[dev_id * 2 + 1] = (buffer_size << 24) | buffer
+                    self.machine_code[dev_id * 2 + 1] = (
+                                                                buffer_size << 24) | buffer
 
-                    self.label_addresses[f'device #{dev_id} initialization'] = dev_id * 2
+                    self.label_addresses[
+                        f'device #{dev_id} initialization'] = dev_id * 2
 
                 else:
-                    raise Exception(f"Error: invalid device name '{statement.identifier}'")
+                    raise Exception(
+                        f"Error: invalid device name '{statement.identifier}'")
             it += 1
 
     @staticmethod

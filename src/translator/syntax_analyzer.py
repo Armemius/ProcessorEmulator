@@ -8,7 +8,8 @@ class ProgramNode(ASTNode):
         self.statements = statements
 
     def __str__(self):
-        return f"ProgramNode(statements=[{', '.join(str(stmt) for stmt in self.statements)}])"
+        return (f"ProgramNode(statements="
+                f"[{', '.join(str(stmt) for stmt in self.statements)}])")
 
 
 class StatementNode(ASTNode):
@@ -21,7 +22,8 @@ class InstructionNode(StatementNode):
         self.operands = operands
 
     def __str__(self):
-        return f"InstructionNode(opcode={self.opcode}, operands={self.operands})"
+        return (f"InstructionNode(opcode={self.opcode}, "
+                f"operands={self.operands})")
 
 
 class LabelNode(StatementNode):
@@ -96,7 +98,11 @@ class SyntaxAnalyzer:
         opcode = self.current_token.value
         self.next_token()
         operands = []
-        while self.current_token and self.current_token.type in ['IDENTIFIER', 'NUMBER', 'CHAR', 'STRING', 'NULLPTR']:
+        while self.current_token and self.current_token.type in ['IDENTIFIER',
+                                                                 'NUMBER',
+                                                                 'CHAR',
+                                                                 'STRING',
+                                                                 'NULLPTR']:
             operands.append(self.current_token.value)
             self.next_token()
             if self.current_token and self.current_token.type == 'COMMA':
@@ -109,4 +115,6 @@ class SyntaxAnalyzer:
         return CommentNode(comment)
 
     def error(self):
-        raise Exception(f"Unexpected token '{self.current_token.value}' on line {self.current_token.line}")
+        raise Exception(
+            f"Unexpected token '{self.current_token.value}' "
+            f"on line {self.current_token.line}")

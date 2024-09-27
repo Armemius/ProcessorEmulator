@@ -1,7 +1,9 @@
 import argparse
 
-from src.emulator.components.io_device import InputDevice, StringConsoleOutputDevice, IntConsoleOutputDevice, \
-    UIntConsoleOutputDevice, HexConsoleOutputDevice, StringFileOutputDevice, IntFileOutputDevice, UIntFileOutputDevice, \
+from src.emulator.components.io_device import InputDevice, \
+    StringConsoleOutputDevice, IntConsoleOutputDevice, \
+    UIntConsoleOutputDevice, HexConsoleOutputDevice, StringFileOutputDevice, \
+    IntFileOutputDevice, UIntFileOutputDevice, \
     HexFileOutputDevice
 from src.emulator.components.memory import Memory
 from src.emulator.components.registers import Registry
@@ -41,6 +43,7 @@ def main(opcodes):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CSA Lab 3 emulator")
-    parser.add_argument("-o", "--sources", required=True, type=str, help="File with operation codes")
+    parser.add_argument("-o", "--sources", required=True, type=str,
+                        help="File with operation codes")
     args = parser.parse_args()
     main(args.opcodes)

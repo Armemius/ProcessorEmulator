@@ -43,7 +43,8 @@ class InputDevice(IODevice):
         bytes_written = 0
         while self.it < size and bytes_written < len(self.input_data[self.it]):
             data = ord(self.input_data[self.it][bytes_written])
-            self.memory.cells[addr + bytes_written // 4] |= data << (8 * (4 - bytes_written % 4 - 1))
+            self.memory.cells[addr + bytes_written // 4] |= data << (
+                        8 * (4 - bytes_written % 4 - 1))
             bytes_written += 1
 
         self.it += 1
@@ -74,7 +75,8 @@ class OutputDevice(IODevice, OutputHandler, Printer):
         data = []
         bytes_read = 0
         while bytes_read < size:
-            data.append((self.memory.cells[addr + bytes_read // 4] >> (8 * (4 - bytes_read % 4 - 1))) & 0xFF)
+            data.append((self.memory.cells[addr + bytes_read // 4] >> (
+                        8 * (4 - bytes_read % 4 - 1))) & 0xFF)
             bytes_read += 1
 
         self.output(self.convert_data(data))

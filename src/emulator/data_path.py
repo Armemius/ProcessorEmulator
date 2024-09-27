@@ -27,21 +27,25 @@ def gen_mc(op, target, lhs, rhs, alu_code, commutator_code):
 
 
 def gen_mc_read():
-    return gen_mc(DataPathOperations.READ.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value,
+    return gen_mc(DataPathOperations.READ.value, RegisterCodes.NONE.value,
+                  RegisterCodes.NONE.value,
                   RegisterCodes.NONE.value, 0, 0)
 
 
 def gen_mc_write():
-    return gen_mc(DataPathOperations.WRITE.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value,
+    return gen_mc(DataPathOperations.WRITE.value, RegisterCodes.NONE.value,
+                  RegisterCodes.NONE.value,
                   RegisterCodes.NONE.value, 0, 0)
 
 
 def gen_io_read(device):
-    return ((DataPathOperations.READ | DataPathOperations.DEV_FLAGS) << 30) | device
+    return ((
+                        DataPathOperations.READ | DataPathOperations.DEV_FLAGS) << 30) | device
 
 
 def gen_io_write(device):
-    return ((DataPathOperations.READ | DataPathOperations.DEV_FLAGS) << 30) | device
+    return ((
+                        DataPathOperations.READ | DataPathOperations.DEV_FLAGS) << 30) | device
 
 
 class DataPath:
@@ -99,7 +103,8 @@ class DataPath:
         commutator_code = code & 0b1111111111
 
         res, flags = process_alu_code(lhs, rhs, alu_code)
-        res = process_commutator_code(res, commutator_code, flags, self.registry)
+        res = process_commutator_code(res, commutator_code, flags,
+                                      self.registry)
 
         if target & RegisterCodes.PC.value != 0:
             self.registry.PC = res

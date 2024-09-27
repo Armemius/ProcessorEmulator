@@ -3,9 +3,11 @@ from distutils.util import execute
 from enum import Enum
 from turtledemo.sorting_animate import instructions1
 
-from src.emulator.components.alu import alu_code, AluOperations, OperandOperation
+from src.emulator.components.alu import alu_code, AluOperations, \
+    OperandOperation
 from src.emulator.components.commutator import commutator_code, CommutatorFlags
-from src.emulator.data_path import DataPath, DataPathOperations, RegisterCodes, gen_mc, gen_mc_read, gen_mc_write
+from src.emulator.data_path import DataPath, DataPathOperations, RegisterCodes, \
+    gen_mc, gen_mc_read, gen_mc_write
 
 
 class AdrrMode(Enum):
@@ -232,8 +234,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
 
@@ -244,8 +249,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value | RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # SR -> DR
@@ -254,8 +262,11 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.SR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # DR -> MEM(AR)
@@ -269,8 +280,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -282,8 +296,11 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # DR -> MEM(AR)
@@ -297,8 +314,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -310,8 +330,11 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # DR -> MEM(AR)
@@ -325,8 +348,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -338,8 +364,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR
         self.data_path.execute(
@@ -347,8 +376,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -358,8 +390,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -369,8 +404,11 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR
         self.data_path.execute(
@@ -378,8 +416,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -391,8 +432,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -404,8 +448,11 @@ class ControlUnit:
                    target=RegisterCodes.SR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # SP + 1 -> SP
@@ -414,8 +461,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
 
@@ -426,8 +476,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -439,8 +492,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value | RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # DR -> MEM(AR)
@@ -454,8 +510,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -467,8 +526,11 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # SP + 1 -> SP
@@ -477,8 +539,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
 
     def execute_iret(self):
@@ -502,8 +567,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -515,8 +583,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR, SP
         self.data_path.execute(
@@ -524,8 +595,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -535,9 +609,13 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.DR.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -549,8 +627,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -562,8 +643,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR, SP
         self.data_path.execute(
@@ -571,8 +655,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -582,10 +669,14 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.DR.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value,
-                                     OperandOperation.NOT.value | OperandOperation.INC.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value
+                                     | OperandOperation.INC.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -597,8 +688,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -610,8 +704,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR, SP
         self.data_path.execute(
@@ -619,8 +716,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -630,9 +730,13 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.DR.value,
-                   alu_code=alu_code(AluOperations.MUL, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.MUL,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -644,8 +748,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -657,8 +764,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR, SP
         self.data_path.execute(
@@ -666,8 +776,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -677,9 +790,13 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.DR.value,
-                   alu_code=alu_code(AluOperations.DIV, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.DIV,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -691,8 +808,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -704,8 +824,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR, SP
         self.data_path.execute(
@@ -713,8 +836,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -724,9 +850,13 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.DR.value,
-                   alu_code=alu_code(AluOperations.AND, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.AND,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -738,8 +868,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -751,8 +884,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR, SP
         self.data_path.execute(
@@ -760,8 +896,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -771,9 +910,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.DR.value,
-                   alu_code=alu_code(AluOperations.AND, OperandOperation.NOT.value, OperandOperation.NOT.value),
+                   alu_code=alu_code(AluOperations.AND,
+                                     OperandOperation.NOT.value,
+                                     OperandOperation.NOT.value),
                    commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
                         CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         # ~DR -> DR
@@ -782,9 +924,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NOT.value, OperandOperation.NONE.value),
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NOT.value,
+                                     OperandOperation.NONE.value),
                    commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
                         CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
 
@@ -798,9 +943,13 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -812,8 +961,11 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NOT.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NOT.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -825,9 +977,13 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -839,9 +995,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NOT.value | OperandOperation.INC.value,
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NOT.value
+                                     | OperandOperation.INC.value,
                                      OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -853,9 +1012,13 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -867,9 +1030,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value,
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
                                      OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SHL]))
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SHL]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -881,9 +1047,13 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -895,9 +1065,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value,
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
                                      OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SHR]))
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SHR]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -909,9 +1082,13 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -923,9 +1100,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value,
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
                                      OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.ROL]))
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.ROL]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -937,9 +1117,13 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -951,9 +1135,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value,
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
                                      OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.ROR]))
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.ROR]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -965,8 +1152,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -978,8 +1168,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP + 1 -> AR
         self.data_path.execute(
@@ -987,8 +1180,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -998,10 +1194,14 @@ class ControlUnit:
                    target=RegisterCodes.NONE.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.DR.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value,
-                                     OperandOperation.NOT.value | OperandOperation.INC.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.SET_C,
-                                                    CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value
+                                     | OperandOperation.INC.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.SET_C,
+                        CommutatorFlags.SET_NZ, CommutatorFlags.SET_V]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -1013,8 +1213,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -1026,8 +1229,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -1039,8 +1245,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
 
         # DR -> MEM(AR)
@@ -1054,8 +1263,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.SP.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -1067,8 +1279,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # SP - 1 -> AR
         self.data_path.execute(
@@ -1076,8 +1291,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # MEM(AR) -> DR
         self.data_path.execute(gen_mc_read())
@@ -1088,8 +1306,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # DR -> MEM(AR)
         self.data_path.execute(gen_mc_write())
@@ -1104,8 +1325,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         # SP - 1 -> SP, AR
         self.data_path.execute(
@@ -1113,8 +1338,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value | RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
 
@@ -1129,8 +1357,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1143,8 +1375,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1157,8 +1393,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1171,8 +1411,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1185,8 +1429,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1199,8 +1447,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1213,8 +1465,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1227,8 +1483,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1239,8 +1499,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value | RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # PC -> DR
@@ -1249,8 +1512,12 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.PC.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
         # DR -> MEM(AR)
@@ -1263,8 +1530,12 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.CR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH, CommutatorFlags.CUTB]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH,
+                        CommutatorFlags.CUTB]))
         )
         self.inc_tick()
 
@@ -1277,8 +1548,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value | RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # BR & ~BR -> BR
         self.data_path.execute(
@@ -1286,8 +1560,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.BR.value,
-                   alu_code=alu_code(AluOperations.AND, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.AND,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # BR + 1 -> DR
         self.data_path.execute(
@@ -1295,8 +1572,11 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
 
@@ -1318,8 +1598,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value | RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # BR & ~BR -> BR
         self.data_path.execute(
@@ -1327,8 +1610,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.BR.value,
-                   alu_code=alu_code(AluOperations.AND, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.AND,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # BR + 1 -> DR
         self.data_path.execute(
@@ -1336,8 +1622,11 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
 
@@ -1360,8 +1649,11 @@ class ControlUnit:
                    target=RegisterCodes.SP.value | RegisterCodes.AR.value,
                    lhs=RegisterCodes.SP.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # BR & ~BR -> BR
         self.data_path.execute(
@@ -1369,8 +1661,11 @@ class ControlUnit:
                    target=RegisterCodes.BR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.BR.value,
-                   alu_code=alu_code(AluOperations.AND, OperandOperation.NONE.value, OperandOperation.NOT.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.AND,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NOT.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         # BR + 1 -> DR
         self.data_path.execute(
@@ -1378,8 +1673,11 @@ class ControlUnit:
                    target=RegisterCodes.DR.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
 
@@ -1408,8 +1706,11 @@ class ControlUnit:
                    target=RegisterCodes.AR.value | RegisterCodes.BR.value,
                    lhs=RegisterCodes.PC.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # MEM(AR) -> DR
@@ -1421,8 +1722,11 @@ class ControlUnit:
                    target=RegisterCodes.CR.value,
                    lhs=RegisterCodes.DR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.NONE.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.NONE.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
         # BR + 1 -> PC
@@ -1431,8 +1735,11 @@ class ControlUnit:
                    target=RegisterCodes.PC.value,
                    lhs=RegisterCodes.BR.value,
                    rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD, OperandOperation.INC.value, OperandOperation.NONE.value),
-                   commutator_code=commutator_code([CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
+                   alu_code=alu_code(AluOperations.ADD,
+                                     OperandOperation.INC.value,
+                                     OperandOperation.NONE.value),
+                   commutator_code=commutator_code(
+                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
 
@@ -1459,8 +1766,10 @@ class ControlUnit:
             f'Tick: {self.tick} \t'
             f'| Instruction: {self.instruction}   '
             f'| {self.registers} '
-            f'| TOS: {self.memory.cells[self.registers.SP & 0xFFFFFF]:08X} '
-            f'| NOS: {self.memory.cells[(self.registers.SP + 1) & 0xFFFFFF]:08X}'
+            f'| TOS: '
+            f'{self.memory.cells[self.registers.SP & 0xFFFFFF]:08X} '
+            f'| NOS: '
+            f'{self.memory.cells[(self.registers.SP + 1) & 0xFFFFFF]:08X}'
         )
 
     def run(self, instruction_delay):
@@ -1470,4 +1779,6 @@ class ControlUnit:
                 self.process()
                 golden_file.write(self.print_state() + '\n')
                 time.sleep(instruction_delay / 1000)
-            print(f'Emulation finished in {self.tick} ticks / {self.instruction} instruction executions')
+            print(
+                f'Emulation finished in {self.tick} ticks '
+                f'/ {self.instruction} instruction executions')

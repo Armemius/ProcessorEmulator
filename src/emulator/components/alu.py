@@ -42,7 +42,8 @@ def process_alu_code(lhs, rhs, code):
         res = lhs_val + rhs_val
         if res > 0xFFFFFFFF:
             flags |= 0x1  # Carry
-        if (lhs_val > 0 > res and rhs_val > 0) or (lhs_val < 0 < res and rhs_val < 0):
+        if (lhs_val > 0 > res and rhs_val > 0) or (
+                lhs_val < 0 < res and rhs_val < 0):
             flags |= 0x2  # Overflow
     elif operation == AluOperations.AND.value:
         res = lhs_val & rhs_val

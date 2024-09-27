@@ -2,7 +2,8 @@ import re
 
 
 def parse_line(line):
-    match = re.match(r'([0-9a-fA-F]{6})\s*([:>])\s*([0-9a-fA-F]{8})\s*(<-.*)?', line)
+    match = re.match(r'([0-9a-fA-F]{6})\s*([:>])\s*([0-9a-fA-F]{8})\s*(<-.*)?',
+                     line)
     if match:
         address = match.group(1)
         separator = match.group(2)
