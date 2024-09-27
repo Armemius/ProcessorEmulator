@@ -1,4 +1,4 @@
-name: Python application
+name: ProcessorEmulator
 
 on:
   push:
@@ -7,6 +7,26 @@ on:
     branches: [ "main", "dev" ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install markdownlint-cli
+        run: |
+          npm install -g markdownlint-cli
+
+      - name: Lint Markdown files
+        run: |
+          markdownlint '**/*.md'
+
   test:
     runs-on: ubuntu-latest
 
