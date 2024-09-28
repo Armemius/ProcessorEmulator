@@ -544,7 +544,7 @@ class ControlUnit:
         )
 
     def run(self, instruction_delay):
-        with open('prob5.txt', 'w') as golden_file:
+        with open('sources.txt', 'w') as golden_file:
             self.registers.SR |= 0x8000
             while self.check_stop_flag():
                 self.process()
