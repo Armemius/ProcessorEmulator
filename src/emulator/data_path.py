@@ -21,6 +21,7 @@ class RegisterCodes(Enum):
     SR = 0b0100000
     BR = 0b1000000
 
+
 registries = {
     'null': RegisterCodes.PC.value,
     'PC': RegisterCodes.PC.value,
@@ -58,8 +59,8 @@ def gen_io_read(device):
 
 def gen_io_write(device):
     return ((
-                        DataPathOperations.READ
-                        | DataPathOperations.DEV_FLAGS) << 30) | device
+                    DataPathOperations.READ
+                    | DataPathOperations.DEV_FLAGS) << 30) | device
 
 
 class DataPath:

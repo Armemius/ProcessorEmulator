@@ -37,7 +37,7 @@ def _parse_lhs(lhs):
             op = match.group('op')
             rhs = match.group('rhs')
 
-        if op is None != rhs is None:
+        if (op is None) != (rhs is None):
             raise ValueError(f"Invalid lhs syntax: {lhs}")
 
         def get_op(value):
@@ -81,7 +81,6 @@ def _parse_lhs(lhs):
                 if registry not in ['PC', 'SP', 'CR', 'AR', 'DR', 'SR', 'BR']:
                     raise ValueError(f"Invalid registry: {registry}")
                 rhs_code |= registries_codes[registry]
-
 
             rhs_operations = OperandOperation.NONE.value
 
@@ -163,4 +162,3 @@ def parse_mnemonic(mnemonic):
 
     else:
         raise ValueError(f"Invalid syntax: {mnemonic}")
-
