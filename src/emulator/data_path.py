@@ -21,6 +21,17 @@ class RegisterCodes(Enum):
     SR = 0b0100000
     BR = 0b1000000
 
+registries = {
+    'null': RegisterCodes.PC.value,
+    'PC': RegisterCodes.PC.value,
+    'SP': RegisterCodes.SP.value,
+    'CR': RegisterCodes.CR.value,
+    'AR': RegisterCodes.AR.value,
+    'DR': RegisterCodes.DR.value,
+    'SR': RegisterCodes.SR.value,
+    'BR': RegisterCodes.BR.value
+}
+
 
 def gen_mc(op, target, lhs, rhs, alu_code, commutator_code):
     return (op << 37 | target << 30 | lhs << 23

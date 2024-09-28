@@ -16,6 +16,13 @@ class CommutatorFlags(Enum):
     SET_V = 0b0100000000
     SET_C = 0b1000000000
 
+alu_flags = {
+    'N': CommutatorFlags.SET_NZ,
+    'Z': CommutatorFlags.SET_NZ,
+    'V': CommutatorFlags.SET_V,
+    'C': CommutatorFlags.SET_C
+}
+
 
 def commutator_code(flags):
     res = 0

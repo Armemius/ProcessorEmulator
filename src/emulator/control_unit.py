@@ -6,6 +6,7 @@ from src.emulator.components.alu import alu_code, AluOperations, \
 from src.emulator.components.commutator import commutator_code, CommutatorFlags
 from src.emulator.data_path import DataPathOperations, RegisterCodes, \
     gen_mc, gen_mc_read, gen_mc_write
+from src.emulator.mc_mnemonic_parser import parse_mnemonic
 
 
 class AdrrMode(Enum):
@@ -127,6 +128,11 @@ class ControlUnit:
         self.tick = 0
         self.instruction = 0
         self.io_devices = io_devices
+
+    def execute_mnemonic(self, mnemonic):
+        code = parse_mnemonic(mnemonic)
+        self.data_path.execute(code)
+        self.inc_tick()
 
     def execute_addr_instruction(self, opcode):
         instruction = address_commands[opcode]
@@ -1775,6 +1781,7 @@ class ControlUnit:
             self.registers.SR |= 0x8000
             while self.check_stop_flag():
                 self.process()
+                print(self.print_state())
                 golden_file.write(self.print_state() + '\n')
                 time.sleep(instruction_delay / 1000)
             print(
