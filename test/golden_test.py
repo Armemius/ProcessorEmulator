@@ -1,6 +1,8 @@
+import pytest
+
 from src.emulator.emulator import main as emulator_main
 
-
+@pytest.mark.timeout(5)
 def test_prob5():
     emulator_main("test/sources/prob5.opc")
     with open('states.txt', 'r') as golden_file:
