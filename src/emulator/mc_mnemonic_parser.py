@@ -27,8 +27,12 @@ def _parse_lhs(lhs):
                      r'(?P<rhs>(~?(([A-Z]{2}(\s*\|\s*[A-Z]{2}\s*)*)|0)'
                      r'(\s*\+\s*1)?))?\s*))$', lhs)
 
+    commutator_flag = []
+
     if match:
         if match.group('cmc'):
+            cmc = re.sub(r'\(.+\)', '', match.group('cmc'))
+            commutator_flag += [CommutatorFlags[cmc]]
             lhs = match.group('clhs')
             op = match.group('cop')
             rhs = match.group('crhs')
@@ -63,6 +67,7 @@ def _parse_lhs(lhs):
         rhs_code = 0
 
         for registry in lhs:
+            registry = registry.strip()
             if registry == '0':
                 continue
             if registry not in ['PC', 'SP', 'CR', 'AR', 'DR', 'SR', 'BR']:
@@ -76,6 +81,7 @@ def _parse_lhs(lhs):
 
         if rhs:
             for registry in rhs:
+                registry = registry.strip()
                 if registry == '0':
                     continue
                 if registry not in ['PC', 'SP', 'CR', 'AR', 'DR', 'SR', 'BR']:
@@ -102,12 +108,14 @@ def _parse_lhs(lhs):
             return {
                 'lhs': (lhs_code, lhs_operations),
                 'rhs': (rhs_code, rhs_operations),
-                'opcode': opcodes[op] if op else None
+                'opcode': opcodes[op] if op else None,
+                'commutator_flag': commutator_flag
             }
         return {
             'lhs': (lhs_code, lhs_operations),
             'rhs': (RegisterCodes.NONE.value, OperandOperation.NONE.value),
-            'opcode': AluOperations.ADD
+            'opcode': AluOperations.ADD,
+            'commutator_flag': commutator_flag
         }
 
     else:
@@ -158,7 +166,7 @@ def parse_mnemonic(mnemonic):
                                         source['rhs'][1]),
                       commutator_code=commutator_code(
                           [CommutatorFlags.LTOL, CommutatorFlags.HTOH] +
-                          flags))
+                          flags + source['commutator_flag']))
 
     else:
         raise ValueError(f"Invalid syntax: {mnemonic}")

@@ -6,4 +6,4 @@ opcodes
 **/__pycache__
 
 src/out.txt
-src/states.txt
+**/states.txt

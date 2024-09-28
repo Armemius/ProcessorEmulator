@@ -232,22 +232,10 @@ class ControlUnit:
         pass
 
     def execute_pop(self):
-        # SP + 1 -> SP
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.SP.value,
-                   lhs=RegisterCodes.SP.value,
-                   rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD,
-                                     OperandOperation.INC.value,
-                                     OperandOperation.NONE.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        self.inc_tick()
+        self.execute_mnemonic('SP + 1 -> SP')
 
     def execute_pushf(self):
-        # SP - 1 -> SP, AR
+        self.execute_mnemonic('SP - 1 -> SP, AR')
         self.data_path.execute(
             gen_mc(DataPathOperations.NONE.value,
                    target=RegisterCodes.SP.value | RegisterCodes.AR.value,
@@ -273,9 +261,7 @@ class ControlUnit:
                        [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('DR -> MEM(AR)')
 
     def execute_inc(self):
         # SP -> AR
@@ -307,9 +293,7 @@ class ControlUnit:
                        [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('DR -> MEM(AR)')
 
     def execute_dec(self):
         # SP -> AR
@@ -341,9 +325,7 @@ class ControlUnit:
                        [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('DR -> MEM(AR)')
 
     def execute_swap(self):
         # SP -> AR
@@ -503,9 +485,7 @@ class ControlUnit:
                        [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
         self.inc_tick()
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('DR -> MEM(AR)')
 
     def execute_ret(self):
         # SP -> AR
@@ -1256,9 +1236,7 @@ class ControlUnit:
                        [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
 
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('DR -> MEM(AR)')
 
     def execute_st(self):
         # SP + 1 -> AR, SP
@@ -1316,9 +1294,7 @@ class ControlUnit:
                    commutator_code=commutator_code(
                        [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('DR -> MEM(AR)')
 
     # Non Addr instructions implementation
 
@@ -1350,9 +1326,7 @@ class ControlUnit:
         )
         self.inc_tick()
 
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('DR -> MEM(AR)')
 
     def execute_jmp(self):
         # CUTB(CR) -> PC
@@ -1524,9 +1498,7 @@ class ControlUnit:
                         CommutatorFlags.CUTB]))
         )
         self.inc_tick()
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('DR -> MEM(AR)')
 
         # CUTB(CR) -> PC
         self.data_path.execute(
@@ -1570,23 +1542,10 @@ class ControlUnit:
                    commutator_code=commutator_code(
                        [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
-        # BR + 1 -> DR
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.DR.value,
-                   lhs=RegisterCodes.BR.value,
-                   rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD,
-                                     OperandOperation.INC.value,
-                                     OperandOperation.NONE.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        self.inc_tick()
 
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('BR + 1 -> DR')
+
+        self.execute_mnemonic('DR -> MEM(AR)')
 
         self.execute_ror()
         self.execute_or()
@@ -1620,23 +1579,10 @@ class ControlUnit:
                    commutator_code=commutator_code(
                        [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
         )
-        # BR + 1 -> DR
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.DR.value,
-                   lhs=RegisterCodes.BR.value,
-                   rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD,
-                                     OperandOperation.INC.value,
-                                     OperandOperation.NONE.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        self.inc_tick()
 
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
+        self.execute_mnemonic('BR + 1 -> DR')
+
+        self.execute_mnemonic('DR -> MEM(AR)')
 
         self.execute_ror()
         self.execute_not()
@@ -1647,48 +1593,9 @@ class ControlUnit:
     def execute_check(self):
         self.execute_push()
         self.execute_ld()
-        # SP - 1 -> SP, AR
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.SP.value | RegisterCodes.AR.value,
-                   lhs=RegisterCodes.SP.value,
-                   rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD,
-                                     OperandOperation.NONE.value,
-                                     OperandOperation.NOT.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        # BR & ~BR -> BR
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.BR.value,
-                   lhs=RegisterCodes.BR.value,
-                   rhs=RegisterCodes.BR.value,
-                   alu_code=alu_code(AluOperations.AND,
-                                     OperandOperation.NONE.value,
-                                     OperandOperation.NOT.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        # BR + 1 -> DR
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.DR.value,
-                   lhs=RegisterCodes.BR.value,
-                   rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD,
-                                     OperandOperation.INC.value,
-                                     OperandOperation.NONE.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        self.inc_tick()
-
-        # DR -> MEM(AR)
-        self.data_path.execute(gen_mc_write())
-        self.inc_tick()
-
+        self.execute_mnemonic('SP - 1 -> SP, AR')
+        self.execute_mnemonic('0+1 -> DR')
+        self.execute_mnemonic('DR -> MEM(AR)')
         self.execute_ror()
         self.execute_and()
         self.execute_pop()
@@ -1704,48 +1611,10 @@ class ControlUnit:
         return (self.registers.SR & 0x8000) != 0
 
     def fetch_instruction(self):
-        # PC -> AR, BR
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.AR.value | RegisterCodes.BR.value,
-                   lhs=RegisterCodes.PC.value,
-                   rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD,
-                                     OperandOperation.NONE.value,
-                                     OperandOperation.NONE.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        self.inc_tick()
-        # MEM(AR) -> DR
-        self.data_path.execute(gen_mc_read())
-        self.inc_tick()
-        # DR -> CR
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.CR.value,
-                   lhs=RegisterCodes.DR.value,
-                   rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD,
-                                     OperandOperation.NONE.value,
-                                     OperandOperation.NONE.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        self.inc_tick()
-        # BR + 1 -> PC
-        self.data_path.execute(
-            gen_mc(DataPathOperations.NONE.value,
-                   target=RegisterCodes.PC.value,
-                   lhs=RegisterCodes.BR.value,
-                   rhs=RegisterCodes.NONE.value,
-                   alu_code=alu_code(AluOperations.ADD,
-                                     OperandOperation.INC.value,
-                                     OperandOperation.NONE.value),
-                   commutator_code=commutator_code(
-                       [CommutatorFlags.LTOL, CommutatorFlags.HTOH]))
-        )
-        self.inc_tick()
+        self.execute_mnemonic('PC -> AR, BR')
+        self.execute_mnemonic('MEM(AR) -> DR')
+        self.execute_mnemonic('DR -> CR')
+        self.execute_mnemonic('BR + 1 -> PC')
 
     def execute_instruction(self):
         opcode = self.registers.CR >> 24
