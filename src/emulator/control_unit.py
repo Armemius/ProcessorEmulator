@@ -1,11 +1,6 @@
 import time
 from enum import Enum
 
-from src.emulator.components.alu import alu_code, AluOperations, \
-    OperandOperation
-from src.emulator.components.commutator import commutator_code, CommutatorFlags
-from src.emulator.data_path import DataPathOperations, RegisterCodes, \
-    gen_mc, gen_mc_read, gen_mc_write
 from src.emulator.mc_mnemonic_parser import parse_mnemonic
 
 
@@ -548,7 +543,7 @@ class ControlUnit:
             self.registers.SR |= 0x8000
             while self.check_stop_flag():
                 self.process()
-                print(self.print_state())
+                # print(self.print_state())
                 golden_file.write(self.print_state() + '\n')
                 time.sleep(instruction_delay / 1000)
             print(
