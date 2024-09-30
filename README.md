@@ -18,8 +18,8 @@ asm | stack | neum | hw | instr | struct | trap | mem | cstr | prob5
 asm | stack | neum | hw | instr | struct | stream | mem | cstr | prob5
 ```
 
-Данная реализация удовлетворяет требованиям как базового варианта, так и 
-упрощённого, так как работа с устройствами ввода-вывода на программном 
+Данная реализация удовлетворяет требованиям как базового варианта, так и
+упрощённого, так как работа с устройствами ввода-вывода на программном
 уровне может осуществляться как по прерываниям, так и без них.
 
 ## Язык программирования
@@ -555,7 +555,8 @@ options:
   - Необязательные аргументы:
     - `-h` или `--help` - справка
 
-Главный модуль программы - [`translator.py`](https://github.com/Armemius/ProcessorEmulator/blob/main/src/translator/translator.py)
+Главный модуль программы - [
+`translator.py`](https://github.com/Armemius/ProcessorEmulator/blob/main/src/translator/translator.py)
 
 ### Этапы трансляции
 
@@ -639,7 +640,7 @@ options:
 
 Тестирование выполняется при помощи подхода golden test
 
-При обновлении файлов в репозитории запускается задание `GitHub Actions`, 
+При обновлении файлов в репозитории запускается задание `GitHub Actions`,
 которое прогоняет проект через тесты и линтеры:
 
 - задание `test` -- проверка кода через golden test'ы
@@ -724,7 +725,7 @@ jobs:
 
 ### Результаты тестирования
 
-Тестирование осуществляется при помощи утилиты `pytest` и `pytest-timeout`, 
+Тестирование осуществляется при помощи утилиты `pytest` и `pytest-timeout`,
 результаты выполнения теста:
 
 ```text
@@ -767,7 +768,7 @@ start:
     halt
 ``` 
 
-Вывод программы: 
+Вывод программы:
 
 ```text
 > Hello, World!
@@ -776,8 +777,8 @@ start:
 Журнал работы:
 
 ```text
-Tick: 37 	| Instruction: 1   | PC: 000034 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: 10000020
-Tick: 42 	| Instruction: 2   | PC: 000035 | SP: 000000 | CR: 0A000000 | AR: 000034 | DR: 0A000000 | SR: 0008 | BR: 00000034 | TOS: 81000000 | NOS: 10000020
+Tick: 37 | Instruction: 1   | PC: 000034 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: 10000020
+Tick: 42 | Instruction: 2   | PC: 000035 | SP: 000000 | CR: 0A000000 | AR: 000034 | DR: 0A000000 | SR: 0008 | BR: 00000034 | TOS: 81000000 | NOS: 10000020
 
 ```
 
@@ -812,7 +813,7 @@ end:
     halt
 ```
 
-Вывод программы: 
+Вывод программы:
 
 ```text
 < Hello, World!
@@ -828,37 +829,37 @@ end:
 ```
 
 Журнал работы:
-
+  
 ```text
-Tick: 40 	| Instruction: 1   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
-Tick: 70 	| Instruction: 2   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
-Tick: 74 	| Instruction: 3   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
-Tick: 111 	| Instruction: 4   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
-Tick: 116 	| Instruction: 5   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
-Tick: 156 	| Instruction: 6   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
-Tick: 186 	| Instruction: 7   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
-Tick: 190 	| Instruction: 8   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
-Tick: 227 	| Instruction: 9   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
-Tick: 232 	| Instruction: 10   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
-Tick: 272 	| Instruction: 11   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
-Tick: 302 	| Instruction: 12   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
-Tick: 306 	| Instruction: 13   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
-Tick: 343 	| Instruction: 14   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
-Tick: 348 	| Instruction: 15   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
-Tick: 388 	| Instruction: 16   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
-Tick: 418 	| Instruction: 17   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
-Tick: 422 	| Instruction: 18   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
-Tick: 459 	| Instruction: 19   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
-Tick: 464 	| Instruction: 20   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
-Tick: 504 	| Instruction: 21   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
-Tick: 534 	| Instruction: 22   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
-Tick: 538 	| Instruction: 23   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
-Tick: 575 	| Instruction: 24   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
-Tick: 580 	| Instruction: 25   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
-Tick: 620 	| Instruction: 26   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 01000000 | NOS: FF000020
-Tick: 650 	| Instruction: 27   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 00000000 | SR: 8004 | BR: 80000000 | TOS: 01000000 | NOS: FF000020
-Tick: 655 	| Instruction: 28   | PC: 000075 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8004 | BR: 00000072 | TOS: 01000000 | NOS: FF000020
-Tick: 660 	| Instruction: 29   | PC: 000076 | SP: 000000 | CR: 0A000000 | AR: 000075 | DR: 0A000000 | SR: 0004 | BR: 00000075 | TOS: 01000000 | NOS: FF000020
+Tick: 40  | Instruction: 1    | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 70  | Instruction: 2    | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 74  | Instruction: 3    | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 111 | Instruction: 4    | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 116 | Instruction: 5    | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 156 | Instruction: 6    | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 186 | Instruction: 7    | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 190 | Instruction: 8    | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 227 | Instruction: 9    | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 232 | Instruction: 10   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 272 | Instruction: 11   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 302 | Instruction: 12   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 306 | Instruction: 13   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 343 | Instruction: 14   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 348 | Instruction: 15   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 388 | Instruction: 16   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 418 | Instruction: 17   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 422 | Instruction: 18   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 459 | Instruction: 19   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 464 | Instruction: 20   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 504 | Instruction: 21   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 534 | Instruction: 22   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 538 | Instruction: 23   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 575 | Instruction: 24   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 580 | Instruction: 25   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 620 | Instruction: 26   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 01000000 | NOS: FF000020
+Tick: 650 | Instruction: 27   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 00000000 | SR: 8004 | BR: 80000000 | TOS: 01000000 | NOS: FF000020
+Tick: 655 | Instruction: 28   | PC: 000075 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8004 | BR: 00000072 | TOS: 01000000 | NOS: FF000020
+Tick: 660 | Instruction: 29   | PC: 000076 | SP: 000000 | CR: 0A000000 | AR: 000075 | DR: 0A000000 | SR: 0004 | BR: 00000075 | TOS: 01000000 | NOS: FF000020
 ```
 
 ## Статистика по алгоритмам
