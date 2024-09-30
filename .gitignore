@@ -1,5 +1,11 @@
 .idea
 .venv
+.pytest_cache
 assembly
 opcodes
 **/__pycache__
+
+test/io/out.txt
+test/io/out.txt
+**/states.txt
+test/output/sources.txt

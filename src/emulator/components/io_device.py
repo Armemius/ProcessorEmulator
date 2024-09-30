@@ -22,6 +22,7 @@ class IODevice:
     def process(self):
         pass
 
+
 # Writes data into a memory buffer
 class InputDevice(IODevice):
     def __init__(self, dev_id, registers, memory, input_data):
@@ -42,20 +43,31 @@ class InputDevice(IODevice):
         bytes_written = 0
         while self.it < size and bytes_written < len(self.input_data[self.it]):
             data = ord(self.input_data[self.it][bytes_written])
-            self.memory.cells[addr + bytes_written // 4] |= data << (8 * (4 - bytes_written % 4 - 1))
+            self.memory.cells[addr + bytes_written // 4] &= ~(
+                        0xFF000000 >> 8 * (bytes_written % 4))
+            self.memory.cells[addr + bytes_written // 4] |= data << (
+                    8 * (4 - bytes_written % 4 - 1))
+            bytes_written += 1
+        while bytes_written < size:
+            self.memory.cells[addr + bytes_written // 4] &= ~(
+                    0xFF000000 >> 8 * (bytes_written % 4))
             bytes_written += 1
 
+        with open('out.txt', 'a') as file:
+            file.write(f"< {self.input_data[self.it][:bytes_written]}\n")
         self.it += 1
-        print('Read to memory')
         self.set_ready()
+
 
 class Printer:
     def convert_data(self, data):
         pass
 
+
 class OutputHandler:
     def output(self, data):
         pass
+
 
 class OutputDevice(IODevice, OutputHandler, Printer):
     def __init__(self, dev_id, registers, memory):
@@ -70,11 +82,13 @@ class OutputDevice(IODevice, OutputHandler, Printer):
         data = []
         bytes_read = 0
         while bytes_read < size:
-            data.append((self.memory.cells[addr + bytes_read // 4] >> (8 * (4 - bytes_read % 4 - 1))) & 0xFF)
+            data.append((self.memory.cells[addr + bytes_read // 4] >> (
+                    8 * (4 - bytes_read % 4 - 1))) & 0xFF)
             bytes_read += 1
 
         self.output(self.convert_data(data))
         self.unset_ready()
+
 
 # Converts data from memory buffer to a string
 
@@ -85,28 +99,36 @@ class StringPrinter(Printer):
             return res[:res.find('\0')]
         return res
 
+
 class IntPrinter(Printer):
     def convert_data(self, data):
         return int.from_bytes(data, 'big', signed=True)
+
 
 class UIntPrinter(Printer):
     def convert_data(self, data):
         return int.from_bytes(data, 'big', signed=False)
 
+
 class HexPrinter(Printer):
     def convert_data(self, data):
         return ''.join(map(lambda x: f'{x:02X}', data))
+
 
 # Method to output data
 
 class ConsolePrinter(OutputHandler):
     def output(self, data):
         print("Output:", data)
+        with open('out.txt', 'a') as file:
+            file.write(f"> {data}\n")
+
 
 class FilePrinter(OutputHandler):
     def output(self, data):
         with open('out.txt', 'a') as file:
-            file.write(data)
+            file.write(f"> {data}\n")
+
 
 # Output devices
 
@@ -114,29 +136,36 @@ class StringConsoleOutputDevice(OutputDevice, StringPrinter, ConsolePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
 
+
 class IntConsoleOutputDevice(OutputDevice, IntPrinter, ConsolePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
+
 
 class UIntConsoleOutputDevice(OutputDevice, UIntPrinter, ConsolePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
 
+
 class HexConsoleOutputDevice(OutputDevice, HexPrinter, ConsolePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
+
 
 class StringFileOutputDevice(OutputDevice, StringPrinter, FilePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
 
+
 class IntFileOutputDevice(OutputDevice, IntPrinter, FilePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
 
+
 class UIntFileOutputDevice(OutputDevice, UIntPrinter, FilePrinter):
     def __init__(self, dev_id, registers, memory):
         super().__init__(dev_id, registers, memory)
+
 
 class HexFileOutputDevice(OutputDevice, HexPrinter, FilePrinter):
     def __init__(self, dev_id, registers, memory):

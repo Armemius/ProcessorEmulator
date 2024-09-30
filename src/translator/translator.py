@@ -4,13 +4,9 @@ import src.translator.syntax_analyzer as astparser
 import src.translator.semantic_analyzer as semparser
 import src.translator.generator as generator
 
-def main():
-    parser = argparse.ArgumentParser(description="CSA Lab 3 assembly translator")
-    parser.add_argument("-s", "--source", required=True, type=str, help="File with asm code")
-    parser.add_argument("-o", "--output", required=True, type=str, help="File with output opcodes")
-    args = parser.parse_args()
 
-    with open(args.source, 'r', encoding='utf-8') as file:
+def main(source, output):
+    with open(source, 'r', encoding='utf-8') as file:
         assembly_file = file.read()
 
     tokens = list(lexer.lex(assembly_file))
@@ -22,11 +18,18 @@ def main():
     gen = generator.MachineCodeGenerator(syntax_tree)
     machine_code = gen.generate()
 
-    with open(args.output, 'w', encoding='utf-8') as output_file:
+    with open(output, 'w', encoding='utf-8') as output_file:
         output_file.write(machine_code)
 
-    print(f'File successfully saved to {args.output}')
+    print(f'File successfully saved to {output}')
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="CSA Lab 3 assembly translator")
+    parser.add_argument("-s", "--source", required=True, type=str,
+                        help="File with asm code")
+    parser.add_argument("-o", "--output", required=True, type=str,
+                        help="File with output sources")
+    args = parser.parse_args()
+    main(args.source, args.output)

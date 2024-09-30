@@ -1,18 +1,22 @@
 from enum import Enum
 
+
 class AluOperations(Enum):
     ADD = 0b00
     AND = 0b01
     MUL = 0b10
     DIV = 0b11
 
+
 class OperandOperation(Enum):
     NONE = 0b00
     NOT = 0b01
     INC = 0b10
 
-def alu_code (operation, op1, op2):
+
+def alu_code(operation, op1, op2):
     return operation.value << 4 | op1 << 2 | op2
+
 
 def process_alu_code(lhs, rhs, code):
     res = 0
@@ -38,7 +42,8 @@ def process_alu_code(lhs, rhs, code):
         res = lhs_val + rhs_val
         if res > 0xFFFFFFFF:
             flags |= 0x1  # Carry
-        if (lhs_val > 0 > res and rhs_val > 0) or (lhs_val < 0 < res and rhs_val < 0):
+        if (lhs_val > 0 > res and rhs_val > 0) or (
+                lhs_val < 0 < res and rhs_val < 0):
             flags |= 0x2  # Overflow
     elif operation == AluOperations.AND.value:
         res = lhs_val & rhs_val

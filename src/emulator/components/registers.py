@@ -10,4 +10,10 @@ class Registry:
         self.BR = 0  # Buffer Register
 
     def __str__(self):
-        return f"PC: {self.PC & 0xFFFFFF:06X} | SP: {self.SP & 0xFFFFFF:06X} | CR: {self.CR & 0xFFFFFFFF:08X} | AR: {self.AR & 0xFFFFFF:06X} | DR: {self.DR & 0xFFFFFFFF:08X} | SR: {self.SR & 0xFFFF:04X} | BR: {self.BR & 0xFFFFFFFF:08X}"
+        return (f"PC: {self.PC & 0xFFFFFF:06X} "
+                f"| SP: {self.SP & 0xFFFFFF:06X} "
+                f"| CR: {self.CR & 0xFFFFFFFF:08X} "
+                f"| AR: {self.AR & 0xFFFFFF:06X} "
+                f"| DR: {self.DR & 0xFFFFFFFF:08X} "
+                f"| SR: {self.SR & 0xFFFF:04X} "
+                f"| BR: {self.BR & 0xFFFFFFFF:08X}")

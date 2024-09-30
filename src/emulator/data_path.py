@@ -22,24 +22,45 @@ class RegisterCodes(Enum):
     BR = 0b1000000
 
 
+registries = {
+    'null': RegisterCodes.PC.value,
+    'PC': RegisterCodes.PC.value,
+    'SP': RegisterCodes.SP.value,
+    'CR': RegisterCodes.CR.value,
+    'AR': RegisterCodes.AR.value,
+    'DR': RegisterCodes.DR.value,
+    'SR': RegisterCodes.SR.value,
+    'BR': RegisterCodes.BR.value
+}
+
+
 def gen_mc(op, target, lhs, rhs, alu_code, commutator_code):
-    return op << 37 | target << 30 | lhs << 23 | rhs << 16 | alu_code << 10 | commutator_code
+    return (op << 37 | target << 30 | lhs << 23
+            | rhs << 16 | alu_code << 10 | commutator_code)
 
 
 def gen_mc_read():
-    return gen_mc(DataPathOperations.READ.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value, 0, 0)
+    return gen_mc(DataPathOperations.READ.value, RegisterCodes.NONE.value,
+                  RegisterCodes.NONE.value,
+                  RegisterCodes.NONE.value, 0, 0)
 
 
 def gen_mc_write():
-    return gen_mc(DataPathOperations.WRITE.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value, RegisterCodes.NONE.value, 0, 0)
+    return gen_mc(DataPathOperations.WRITE.value, RegisterCodes.NONE.value,
+                  RegisterCodes.NONE.value,
+                  RegisterCodes.NONE.value, 0, 0)
 
 
 def gen_io_read(device):
-    return ((DataPathOperations.READ | DataPathOperations.DEV_FLAGS) << 30) | device
+    return ((
+                    DataPathOperations.READ
+                    | DataPathOperations.DEV_FLAGS) << 30) | device
 
 
 def gen_io_write(device):
-    return ((DataPathOperations.READ | DataPathOperations.DEV_FLAGS) << 30) | device
+    return ((
+                    DataPathOperations.READ
+                    | DataPathOperations.DEV_FLAGS) << 30) | device
 
 
 class DataPath:
@@ -55,10 +76,12 @@ class DataPath:
 
     def execute(self, code):
         op = (code >> 37) & 0b111
-        if op & DataPathOperations.READ.value != 0 and op & DataPathOperations.DEV_FLAGS.value != 0:
+        if (op & DataPathOperations.READ.value != 0
+                and op & DataPathOperations.DEV_FLAGS.value != 0):
             self.memory.io_read(op & 0xFF)
             return
-        if op & DataPathOperations.WRITE.value != 0 and op & DataPathOperations.DEV_FLAGS.value != 0:
+        if (op & DataPathOperations.WRITE.value != 0
+                and op & DataPathOperations.DEV_FLAGS.value != 0):
             self.memory.io_write(op & 0xFF)
             return
         if op & DataPathOperations.READ.value != 0:
@@ -97,7 +120,8 @@ class DataPath:
         commutator_code = code & 0b1111111111
 
         res, flags = process_alu_code(lhs, rhs, alu_code)
-        res = process_commutator_code(res, commutator_code, flags, self.registry)
+        res = process_commutator_code(res, commutator_code, flags,
+                                      self.registry)
 
         if target & RegisterCodes.PC.value != 0:
             self.registry.PC = res

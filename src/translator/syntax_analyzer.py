@@ -2,15 +2,19 @@ class ASTNode:
     def __str__(self):
         return self.__class__.__name__
 
+
 class ProgramNode(ASTNode):
     def __init__(self, statements):
         self.statements = statements
 
     def __str__(self):
-        return f"ProgramNode(statements=[{', '.join(str(stmt) for stmt in self.statements)}])"
+        return (f"ProgramNode(statements="
+                f"[{', '.join(str(stmt) for stmt in self.statements)}])")
+
 
 class StatementNode(ASTNode):
     pass
+
 
 class InstructionNode(StatementNode):
     def __init__(self, opcode, operands):
@@ -18,7 +22,9 @@ class InstructionNode(StatementNode):
         self.operands = operands
 
     def __str__(self):
-        return f"InstructionNode(opcode={self.opcode}, operands={self.operands})"
+        return (f"InstructionNode(opcode={self.opcode}, "
+                f"operands={self.operands})")
+
 
 class LabelNode(StatementNode):
     def __init__(self, identifier):
@@ -27,12 +33,14 @@ class LabelNode(StatementNode):
     def __str__(self):
         return f"LabelNode(identifier={self.identifier})"
 
+
 class SectionNode(StatementNode):
     def __init__(self, section_type):
         self.section_type = section_type
 
     def __str__(self):
         return f"SectionNode(section_type={self.section_type})"
+
 
 class CommentNode(StatementNode):
     def __init__(self, comment):
@@ -41,11 +49,13 @@ class CommentNode(StatementNode):
     def __str__(self):
         return f"CommentNode(comment={self.comment})"
 
+
 class ParserToken:
     def __init__(self, token_type, value, line):
         self.type = token_type
         self.value = value
         self.line = line
+
 
 class SyntaxAnalyzer:
     def __init__(self, tokens):
@@ -88,7 +98,11 @@ class SyntaxAnalyzer:
         opcode = self.current_token.value
         self.next_token()
         operands = []
-        while self.current_token and self.current_token.type in ['IDENTIFIER', 'NUMBER', 'CHAR', 'STRING', 'NULLPTR']:
+        while self.current_token and self.current_token.type in ['IDENTIFIER',
+                                                                 'NUMBER',
+                                                                 'CHAR',
+                                                                 'STRING',
+                                                                 'NULLPTR']:
             operands.append(self.current_token.value)
             self.next_token()
             if self.current_token and self.current_token.type == 'COMMA':
@@ -101,4 +115,6 @@ class SyntaxAnalyzer:
         return CommentNode(comment)
 
     def error(self):
-        raise Exception(f"Unexpected token '{self.current_token.value}' on line {self.current_token.line}")
+        raise Exception(
+            f"Unexpected token '{self.current_token.value}' "
+            f"on line {self.current_token.line}")

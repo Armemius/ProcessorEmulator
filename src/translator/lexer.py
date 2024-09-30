@@ -2,7 +2,8 @@ import re
 
 # Define token specifications
 token_specification = [
-    ('NUMBER', r'0x[0-9A-Fa-f]+|0b[01]+|\d+'),  # Hex, binary, or decimal number
+    ('NUMBER', r'0x[0-9A-Fa-f]+|0b[01]+|\d+'),
+    # Hex, binary, or decimal number
     ('CHAR', r"'[^']'"),  # Character
     ('STRING', r'"[^"]*"'),  # String
     ('NULLPTR', r'null'),  # Null pointer
@@ -10,8 +11,10 @@ token_specification = [
     ('SECTION', r'.section\s+(text|data|devices)'),  # Section
     ('COMMENT', r';[^\n]*'),  # Comment
     ('OPCODE',
-     r'(?i)(pushf|popf|push|str|pop|inc|dec|swap|dup|nop|jmp|call|ret|halt|int|iret|ei|di|in|out|add|sub|mul|div|and|or|xor|not|neg|ld|st|cmp|jz|je|jnz|jg|jge|jl|jle|res|byte|char|shl|shr|rol|ror|addr|set|unset|check)[^a-zA-Z0-9_]'),
-    # Opcode
+     r'(?i)(pushf|popf|push|str|pop|inc|dec|swap|dup|nop|jmp|call|ret|halt'
+     r'|int|iret|ei|di|in|out|add|sub|mul|div|and|or|xor|not|neg|ld|st|cmp|jz'
+     r'|je|jnz|jg|jge|jl|jle|res|byte|char|shl|shr|rol|ror|addr|set|unset'
+     r'|check)[^a-zA-Z0-9_]'),  # Opcode
     ('IDENTIFIER', r'[a-zA-Z_][a-zA-Z0-9_]*'),  # Identifier
     ('COMMA', r','),  # Comma
     ('NEWLINE', r'\n'),  # Line endings
