@@ -3,14 +3,24 @@
 Степанов Арсений Алексеевич, P3309 (бывш. P3209)
 
 ```text
-asm | stack | neum | hw | instr | struct | trap -> stream | mem | cstr | prob1 | spi
+asm | stack | neum | hw | instr | struct | trap -> stream | mem | cstr | prob5 | spi
 ```
 
 Базовый вариант:
 
 ```text
-asm | stack | neum | hw | instr | struct | trap | mem | cstr | prob1
+asm | stack | neum | hw | instr | struct | trap | mem | cstr | prob5
 ```
+
+Упрощённый вариант:
+
+```text
+asm | stack | neum | hw | instr | struct | stream | mem | cstr | prob5
+```
+
+Данная реализация удовлетворяет требованиям как базового варианта, так и 
+упрощённого, так как работа с устройствами ввода-вывода на программном 
+уровне может осуществляться как по прерываниям, так и без них.
 
 ## Язык программирования
 
@@ -203,7 +213,7 @@ push 42     ; decimal
 необходимо явно его прописывать.
 
 ```asm
-#section data
+.section data
 
 sample_string_1:
     str "Hello, world!\0"
@@ -235,7 +245,7 @@ sample_string_3:
 - Порядок данных в памяти - big-endian
 
 ```asm
-#section data
+.section data
 
 .string:
     str "abc\0"
@@ -485,12 +495,12 @@ sample_string_3:
 
 ```asm
 ; Раздел данных, где инициализируется значения
-#section data
+.section data
 number:
     byte 0x04, 0x00  ; Инициализация числа 1024 (0x0400) в памяти
 
 ; Исполнимая секция кода
-#section text
+.section text
     ; Загрузка значения из памяти
     push number
     ld              ; Загрузить число из метки 'number' на стек
@@ -545,6 +555,8 @@ options:
   - Необязательные аргументы:
     - `-h` или `--help` - справка
 
+Главный модуль программы - [`translator.py`](https://github.com/Armemius/ProcessorEmulator/blob/main/src/translator/translator.py)
+
 ### Этапы трансляции
 
 - Лексический анализ
@@ -588,3 +600,273 @@ options:
 - Все определённые метки являются глобальными
 - Обращение к мнемонике инструкции регистронезависимо
 - По умолчанию файл является секцией `text`
+
+## Модель процессора
+
+Интерфейс командной строки:
+
+```text
+usage: emulator.py [-h] -o SOURCES
+
+CSA Lab 3 emulator
+
+options:
+  -h, --help            show this help message and exit
+  -o SOURCES, --sources SOURCES
+                        File with operation codes
+  -i INPUT, --input INPUT
+                        File with input data queue
+```
+
+- Пример использования
+  `python emulator.py -o examples/sample.bin`
+  - Обязательные аргументы:
+    - `-o` или `--sources` - путь к файлу с бинарным кодом
+  - Необязательные аргументы:
+    - `-h` или `--help` - справка
+    - `-i` или `--input` - путь к файлу с входными данными для устройств ввода
+    - `-n` или `--interrupt` - использование ввода данных по прерываниям
+
+### Схема `data path`
+
+![Data path](./assets/data_path.png)
+
+### Схема `control unit`
+
+![Control unit](./assets/control_unit.png)
+
+## Тестирование
+
+Тестирование выполняется при помощи подхода golden test
+
+При обновлении файлов в репозитории запускается задание `GitHub Actions`, 
+которое прогоняет проект через тесты и линтеры:
+
+- задание `test` -- проверка кода через golden test'ы
+- задание `lint-python` -- проверка кода через `flake8`
+- задание `lint-markdown` -- проверка документации через `markdownlint`
+
+### CI при помощи Github Action
+
+```yaml
+name: ProcessorEmulator
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  lint-markdown:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install markdownlint-cli
+        run: |
+          npm install -g markdownlint-cli
+
+      - name: Lint Markdown files
+        run: |
+          markdownlint '**/*.md'
+
+  lint-python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install flake8
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Lint Python files
+        run: |
+          flake8 .
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          pip install pytest-timeout
+
+      - name: Test
+        run: |
+          pytest
+```
+
+### Результаты тестирования
+
+Тестирование осуществляется при помощи утилиты `pytest` и `pytest-timeout`, 
+результаты выполнения теста:
+
+```text
+(.venv) PS C:\Users\armemius\Documents\projects\csa-lab-3> pytest
+======================================================================================================= test session starts =======================================================================================================
+platform win32 -- Python 3.10.11, pytest-8.3.3, pluggy-1.5.0
+rootdir: C:\Users\armemius\Documents\projects\csa-lab-3
+plugins: timeout-2.3.1
+collected 4 items                                                                                                                                                                                                                  
+
+test\golden_test.py ....                                                                                                                                                                                                     [100%]
+
+======================================================================================================== 4 passed in 1.92s ======================================================================================================== 
+```
+
+### Программы, используемые для тестирования
+
+#### Hello World
+
+```nasm
+.section devices
+dev0:
+        byte 0x81
+        addr null
+        byte 0x10
+        addr buffer_0
+dev1:
+        byte 0x81
+        addr null
+        byte 0x10
+        addr buffer_0
+
+.section data
+buffer_0:
+        str "Hello, World!"
+        byte 0x0
+
+.section text
+start:
+    halt
+``` 
+
+Вывод программы: 
+
+```text
+> Hello, World!
+```
+
+Журнал работы:
+
+```text
+Tick: 37 	| Instruction: 1   | PC: 000034 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: 10000020
+Tick: 42 	| Instruction: 2   | PC: 000035 | SP: 000000 | CR: 0A000000 | AR: 000034 | DR: 0A000000 | SR: 0008 | BR: 00000034 | TOS: 81000000 | NOS: 10000020
+
+```
+
+#### Cat
+
+```nasm
+.section devices
+dev0:
+        byte 0x81
+        addr null
+        byte 0xFF
+        addr buffer_0
+dev1:
+        byte 0x01
+        addr null
+        byte 0xFF
+        addr buffer_0
+
+.section data
+buffer_0:
+        res 0xFF
+
+.section text
+start:
+    unset dev0
+    check dev0
+    jz end
+    set dev1
+    jmp start
+
+end:
+    halt
+```
+
+Вывод программы: 
+
+```text
+< Hello, World!
+> Hello, World!
+< I
+> I
+< love
+> love
+< CSA
+> CSA
+< Lab3
+> Lab3
+```
+
+Журнал работы:
+
+```text
+Tick: 40 	| Instruction: 1   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 70 	| Instruction: 2   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 74 	| Instruction: 3   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 111 	| Instruction: 4   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 116 	| Instruction: 5   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 156 	| Instruction: 6   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 186 	| Instruction: 7   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 190 	| Instruction: 8   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 227 	| Instruction: 9   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 232 	| Instruction: 10   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 272 	| Instruction: 11   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 302 	| Instruction: 12   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 306 	| Instruction: 13   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 343 	| Instruction: 14   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 348 	| Instruction: 15   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 388 	| Instruction: 16   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 418 	| Instruction: 17   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 422 	| Instruction: 18   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 459 	| Instruction: 19   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 464 	| Instruction: 20   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 504 	| Instruction: 21   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 81000000 | NOS: FF000020
+Tick: 534 	| Instruction: 22   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 80000000 | SR: 8008 | BR: 80000000 | TOS: 81000000 | NOS: FF000020
+Tick: 538 	| Instruction: 23   | PC: 000073 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8008 | BR: 00000072 | TOS: 81000000 | NOS: FF000020
+Tick: 575 	| Instruction: 24   | PC: 000074 | SP: 000000 | CR: F0000002 | AR: 000002 | DR: 81000000 | SR: 8008 | BR: 00000002 | TOS: 81000000 | NOS: FF000020
+Tick: 580 	| Instruction: 25   | PC: 000070 | SP: 000000 | CR: 80000070 | AR: 000074 | DR: 80000070 | SR: 8008 | BR: 00000074 | TOS: 81000000 | NOS: FF000020
+Tick: 620 	| Instruction: 26   | PC: 000071 | SP: 000000 | CR: F4000000 | AR: 000000 | DR: 01000000 | SR: 8000 | BR: 00000000 | TOS: 01000000 | NOS: FF000020
+Tick: 650 	| Instruction: 27   | PC: 000072 | SP: 000000 | CR: FC000000 | AR: FFFFFE | DR: 00000000 | SR: 8004 | BR: 80000000 | TOS: 01000000 | NOS: FF000020
+Tick: 655 	| Instruction: 28   | PC: 000075 | SP: 000000 | CR: 84000075 | AR: 000072 | DR: 84000075 | SR: 8004 | BR: 00000072 | TOS: 01000000 | NOS: FF000020
+Tick: 660 	| Instruction: 29   | PC: 000076 | SP: 000000 | CR: 0A000000 | AR: 000075 | DR: 0A000000 | SR: 0004 | BR: 00000075 | TOS: 01000000 | NOS: FF000020
+```
+
+## Статистика по алгоритмам
+
+```text
+| ФИО                          | алг            | LoC | code инстр. | инстр.  | такт.  |
+| Степанов Арсений Алексеевич  | hello_world    | 21  | 2           | 2       | 41     |
+| Степанов Арсений Алексеевич  | hello_username | 267 | 197         | 2421    | 22034  |
+| Степанов Арсений Алексеевич  | cat            | 27  | 6           | 29      | 660    |
+| Степанов Арсений Алексеевич  | prob5          | 228 | 146         | 7440    | 68469  |
+```

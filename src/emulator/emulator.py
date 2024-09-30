@@ -11,9 +11,12 @@ from src.emulator.control_unit import ControlUnit
 from src.emulator.data_path import DataPath
 
 
-def main(opcodes):
+def main(opcodes, input_queue=None):
     with open(opcodes, 'r', encoding='utf-8') as file:
         operation_codes = file.read()
+
+    with open('out.txt', 'w') as file:
+        file.truncate(0)
 
     print('Emulator started...')
 
@@ -22,7 +25,10 @@ def main(opcodes):
     memory.load(operation_codes)
     data_path = DataPath(memory, registry, None)
 
-    input_data = ['Hello, World!']
+    input_data = ['Amogus', 'I', 'love', 'CSA', 'Lab3']
+
+    if input_queue is not None:
+        input_data = input_queue
 
     io_devices = [
         InputDevice(0, registry, memory, input_data),
@@ -43,7 +49,7 @@ def main(opcodes):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CSA Lab 3 emulator")
-    parser.add_argument("-o", "--sources", required=True, type=str,
-                        help="File with operation codes")
+    parser.add_argument("-o", "--sources", required=True,
+                        type=str, help="File with operation codes")
     args = parser.parse_args()
     main(args.opcodes)

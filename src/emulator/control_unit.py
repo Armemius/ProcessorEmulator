@@ -267,7 +267,7 @@ class ControlUnit:
     def execute_dup(self):
         self.execute_mnemonic('SP -> AR')
         self.execute_mnemonic('MEM(AR) -> DR')
-        self.execute_mnemonic('SP - 1 -> SP, AR')
+        self.execute_mnemonic('SP + ~0 -> SP, AR')
         self.execute_mnemonic('DR -> MEM(AR)')
 
     def execute_ret(self):
@@ -486,8 +486,9 @@ class ControlUnit:
     def execute_check(self):
         self.execute_push()
         self.execute_ld()
-        self.execute_mnemonic('SP - 1 -> SP, AR')
-        self.execute_mnemonic('0+1 -> DR')
+        self.execute_mnemonic('SP + ~0 -> SP, AR')
+        self.execute_mnemonic('BR & ~BR -> BR')
+        self.execute_mnemonic('BR + 1 -> DR')
         self.execute_mnemonic('DR -> MEM(AR)')
         self.execute_ror()
         self.execute_and()

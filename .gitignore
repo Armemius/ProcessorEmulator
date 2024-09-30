@@ -5,6 +5,7 @@ assembly
 opcodes
 **/__pycache__
 
-src/out.txt
+test/io/out.txt
+test/io/out.txt
 **/states.txt
-**/sources.txt
+test/output/sources.txt

@@ -43,12 +43,19 @@ class InputDevice(IODevice):
         bytes_written = 0
         while self.it < size and bytes_written < len(self.input_data[self.it]):
             data = ord(self.input_data[self.it][bytes_written])
+            self.memory.cells[addr + bytes_written // 4] &= ~(
+                        0xFF000000 >> 8 * (bytes_written % 4))
             self.memory.cells[addr + bytes_written // 4] |= data << (
-                        8 * (4 - bytes_written % 4 - 1))
+                    8 * (4 - bytes_written % 4 - 1))
+            bytes_written += 1
+        while bytes_written < size:
+            self.memory.cells[addr + bytes_written // 4] &= ~(
+                    0xFF000000 >> 8 * (bytes_written % 4))
             bytes_written += 1
 
+        with open('out.txt', 'a') as file:
+            file.write(f"< {self.input_data[self.it][:bytes_written]}\n")
         self.it += 1
-        print('Read to memory')
         self.set_ready()
 
 
@@ -76,7 +83,7 @@ class OutputDevice(IODevice, OutputHandler, Printer):
         bytes_read = 0
         while bytes_read < size:
             data.append((self.memory.cells[addr + bytes_read // 4] >> (
-                        8 * (4 - bytes_read % 4 - 1))) & 0xFF)
+                    8 * (4 - bytes_read % 4 - 1))) & 0xFF)
             bytes_read += 1
 
         self.output(self.convert_data(data))
@@ -113,12 +120,14 @@ class HexPrinter(Printer):
 class ConsolePrinter(OutputHandler):
     def output(self, data):
         print("Output:", data)
+        with open('out.txt', 'a') as file:
+            file.write(f"> {data}\n")
 
 
 class FilePrinter(OutputHandler):
     def output(self, data):
         with open('out.txt', 'a') as file:
-            file.write(data)
+            file.write(f"> {data}\n")
 
 
 # Output devices
