@@ -555,8 +555,7 @@ options:
   - Необязательные аргументы:
     - `-h` или `--help` - справка
 
-Главный модуль программы - [
-`translator.py`](https://github.com/Armemius/ProcessorEmulator/blob/main/src/translator/translator.py)
+Главный модуль программы - [`translator.py`](https://github.com/Armemius/ProcessorEmulator/blob/main/src/translator/translator.py)
 
 ### Этапы трансляции
 
@@ -766,7 +765,7 @@ buffer_0:
 .section text
 start:
     halt
-``` 
+```
 
 Вывод программы:
 
